@@ -32,7 +32,7 @@ public class RUser {
 	@Column(name="PSWD")
 	private String pswd;
 	@Column(name="IS_CHEF")
-	private String isChef;
+	private int isChef;
 	
 	//@Transient
 		@ManyToOne
@@ -83,11 +83,11 @@ public class RUser {
 		this.pswd = pswd;
 	}
 
-	public String getIsChef() {
+	public int getIsChef() {
 		return isChef;
 	}
 
-	public void setIsChef(String isChef) {
+	public void setIsChef(int isChef) {
 		this.isChef = isChef;
 	}
 
@@ -104,7 +104,7 @@ public class RUser {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((isChef == null) ? 0 : isChef.hashCode());
+		result = prime * result + isChef;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((pswd == null) ? 0 : pswd.hashCode());
 		result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
@@ -132,11 +132,7 @@ public class RUser {
 		} else if (!email.equals(other.email)) {
 			return false;
 		}
-		if (isChef == null) {
-			if (other.isChef != null) {
-				return false;
-			}
-		} else if (!isChef.equals(other.isChef)) {
+		if (isChef != other.isChef) {
 			return false;
 		}
 		if (name == null) {
@@ -178,6 +174,8 @@ public class RUser {
 		return "RUser [userId=" + userId + ", uName=" + uName + ", name=" + name + ", email=" + email + ", pswd=" + pswd
 				+ ", isChef=" + isChef + ", recipe=" + recipe + "]";
 	}
+
+	
 
 	
 }
