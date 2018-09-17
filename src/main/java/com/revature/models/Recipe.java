@@ -18,7 +18,7 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="recipeIdSequence")
 	@SequenceGenerator(name="recipeIdSequence", allocationSize=1, sequenceName="SQ_RECIPEID_PK")
-	@Column(name="USER_ID")
+	@Column(name="RECIPE_ID")
 	@JsonProperty
 	private int recipeId;
 	

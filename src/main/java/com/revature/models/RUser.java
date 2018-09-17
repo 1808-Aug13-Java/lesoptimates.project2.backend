@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -43,12 +46,20 @@ public class RUser {
 	@JsonProperty
 	private int isChef;
 
-	@ManyToOne
+	@OneToMany
 	@JoinColumn(name = "RECIPE_ID")
-	private Recipe recipe;
+	private List<Recipe> recipe;
 
 	public RUser() {
 		super();
+	}
+
+	public List<Recipe> getRecipe() {
+		return recipe;
+	}
+
+	public void setRecipe(List<Recipe> recipe) {
+		this.recipe = recipe;
 	}
 
 	public int getUserId() {
@@ -99,13 +110,15 @@ public class RUser {
 		this.isChef = isChef;
 	}
 
-	public Recipe getrecipe() {
-		return recipe;
+
+
+	@Override
+	public String toString() {
+		return "RUser [userId=" + userId + ", uName=" + uName + ", name=" + name + ", email=" + email + ", pswd=" + pswd
+				+ ", isChef=" + isChef + ", recipe=" + recipe + "]";
 	}
 
-	public void setrecipe(Recipe recipe) {
-		this.recipe = recipe;
-	}
+
 
 	@Override
 	public int hashCode() {
@@ -120,6 +133,8 @@ public class RUser {
 		result = prime * result + userId;
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -175,12 +190,6 @@ public class RUser {
 			return false;
 		}
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "RUser [userId=" + userId + ", uName=" + uName + ", name=" + name + ", email=" + email + ", pswd=" + pswd
-				+ ", isChef=" + isChef + ", recipe=" + recipe + "]";
 	}
 
 }
