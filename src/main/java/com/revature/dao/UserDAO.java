@@ -10,7 +10,7 @@ public interface UserDAO {
 	public List<RUser> getAllChefs();
 	public List<RUser> getAllNonChefs();
 	public RUser getUserByUserName(String userName);
-	public void createUser(RUser user);
+	public int createUser(RUser user);
 	public void deleteUser(RUser user);
 	public void updateUser(RUser user);
 	

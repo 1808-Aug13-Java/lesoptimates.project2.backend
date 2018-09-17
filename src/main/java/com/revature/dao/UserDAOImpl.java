@@ -54,7 +54,7 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public i createUser(RUser user) {
+	public int createUser(RUser user) {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = s.beginTransaction();
 		int custId = (Integer) s.save(user);
