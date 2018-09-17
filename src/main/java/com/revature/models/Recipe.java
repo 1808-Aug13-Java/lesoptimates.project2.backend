@@ -9,6 +9,8 @@ import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table
 public class Recipe {
@@ -17,10 +19,12 @@ public class Recipe {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="recipeIdSequence")
 	@SequenceGenerator(name="recipeIdSequence", allocationSize=1, sequenceName="SQ_RECIPEID_PK")
 	@Column(name="USER_ID")
+	@JsonProperty
 	private int recipeId;
 	
 	@Lob
 	@Column( name = "RECIPEJSON" )
+	@JsonProperty
 	private String recipeJON;
 	
 
