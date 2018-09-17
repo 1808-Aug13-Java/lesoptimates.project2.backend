@@ -11,7 +11,7 @@ import com.revature.util.HibernateUtil;
 public class RecipeDaoImpl implements RecipeDao{
 
 	@Override
-	public int createRecipe(Recipe recipe) {
+	public int saveRecipe(Recipe recipe) {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = s.beginTransaction();
 		int recipePK = (int) s.save(recipe);
@@ -21,12 +21,47 @@ public class RecipeDaoImpl implements RecipeDao{
 	}
 
 	//@Table
-	public Recipe updateRecipe(Recipe recipe) {
+	public Recipe mergeRecipe(Recipe recipe) {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = s.beginTransaction();
-		Recipe updatedRecipe = (Recipe) s.merge("RECIPE", recipe);
+		Recipe mergedRecipe = (Recipe) s.merge("RECIPE", recipe);
 		tx.commit();
-		return updatedRecipe;
+		return mergedRecipe;
+	}
+
+	@Override
+	public void updateRecipe(Recipe recipe) {
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		s.update(recipe);
+		tx.commit();
+		s.close();
+	}
+
+	@Override
+	public void persistRecipe(Recipe recipe) {
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		s.persist(recipe);
+		tx.commit();
+		s.close();
+	}
+
+	@Override
+	public Recipe getRecipe(int recipeId) {
+		Session s = HibernateUtil.getSession();
+		Recipe recipe = (Recipe) s.get(Recipe.class, recipeId);
+		s.close();
+		return recipe;
+	}
+
+	@Override
+	public Recipe loadRecipe(int recipeId) {
+		Session s = HibernateUtil.getSession();
+		Recipe recipe = (Recipe) s.load(Recipe.class, recipeId);
+		s.close();
+		return recipe;
+		
 	}
 
 }

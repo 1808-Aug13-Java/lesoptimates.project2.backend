@@ -4,8 +4,11 @@ import com.revature.models.Recipe;
 
 public interface RecipeDao {
 	
-	public int createRecipe(Recipe recipe);
-	public Recipe updateRecipe(Recipe recipe);
-	
+	public int saveRecipe(Recipe recipe);
+	public Recipe mergeRecipe(Recipe recipe);
+	public void updateRecipe(Recipe recipe);
+	public void persistRecipe(Recipe recipe);
+	public Recipe getRecipe(int recipeId);
+	public Recipe loadRecipe(int recipeId);
 
 }
