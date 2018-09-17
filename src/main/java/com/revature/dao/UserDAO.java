@@ -13,7 +13,7 @@ public interface UserDAO {
 	public RUser getUserByUserName(String userName);
 	public int createUser(RUser user);
 	public void deleteUser(RUser user);
-	public void updateUser(RUser user);
+	public RUser updateUser(RUser user);
 	public List<Recipe> getRecipesByUser(RUser user);
 	
 	

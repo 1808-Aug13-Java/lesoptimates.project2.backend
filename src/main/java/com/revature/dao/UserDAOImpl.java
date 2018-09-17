@@ -87,13 +87,17 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void updateUser(RUser user) {
+	public RUser updateUser(RUser user) {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = s.beginTransaction();
-		s.merge(user);
+		RUser rUser = (RUser) s.merge(user);
+		if (rUser != null) {
+			s.close();
+			return rUser;
+		}
 		tx.commit();
 		s.close();
-
+		return null;
 	}
 
 	@Override
