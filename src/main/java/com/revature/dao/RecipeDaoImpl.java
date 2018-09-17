@@ -4,14 +4,18 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import com.revature.models.RUser;
 import com.revature.models.Recipe;
 import com.revature.util.HibernateUtil;
 
 public class RecipeDaoImpl implements RecipeDao{
+	private static Logger log = Logger.getRootLogger();
 
 	@Override
 	public int saveRecipe(Recipe recipe) {
@@ -23,7 +27,7 @@ public class RecipeDaoImpl implements RecipeDao{
 		return recipePK;
 	}
 
-	//@Table
+
 	public Recipe mergeRecipe(Recipe recipe) {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = s.beginTransaction();
@@ -66,14 +70,15 @@ public class RecipeDaoImpl implements RecipeDao{
 		return recipe;
 		
 	}
-
+	
 	@Override
-	public void deleteRecipe(Recipe recipe) {
+	public List<Recipe> getAllRecipesByUser(RUser user) {
 		Session s = HibernateUtil.getSession();
-		Transaction tx = s.beginTransaction();
-		s.delete(recipe);
-		tx.commit();
+		Criteria cr = s.createCriteria(Recipe.class);
+		cr.add(Restrictions.eq("userId", user.getUserId()));
+		List<Recipe> recipes = cr.list();
 		s.close();
+		return recipes;
 	}
 
 	@Override
@@ -83,11 +88,13 @@ public class RecipeDaoImpl implements RecipeDao{
 		s.close();
 		return recipes;
 	}
-
+	
 	@Override
-	public List<Recipe> getAllRecipesByUser(RUser user) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteRecipe(Recipe recipe) {
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		s.delete(recipe);
+		tx.commit();
+		s.close();
 	}
-
 }

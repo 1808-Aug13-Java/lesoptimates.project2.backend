@@ -11,7 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import com.revature.models.RUser;
 import com.revature.util.HibernateUtil;
 
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
 	private static Logger log = Logger.getRootLogger();
 
@@ -48,7 +48,11 @@ public class UserDAOImpl implements UserDAO{
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
 		cr.add(Restrictions.eq("uName", userName));
-//		RUser user = cr.;
+		if (cr.list().isEmpty()) {
+			RUser user = (RUser) cr.list().get(0);
+			s.close();
+			return user;
+		}
 		s.close();
 		return null;
 	}
@@ -61,19 +65,31 @@ public class UserDAOImpl implements UserDAO{
 		tx.commit();
 		s.close();
 		return custId;
-		
+
 	}
 
 	@Override
 	public void deleteUser(RUser user) {
-		// TODO Auto-generated method stub
-		
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		s.delete(user);
+		tx.commit();
+		s.close();
+
 	}
 
 	@Override
-	public void updateUser(RUser user) {
-		// TODO Auto-generated method stub
-		
+	public RUser updateUser(RUser user) {
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		RUser rUser = (RUser) s.merge(user);
+		if (rUser != null) {
+			s.close();
+			return rUser;
+		}
+		tx.commit();
+		s.close();
+		return null;
 	}
 
 }

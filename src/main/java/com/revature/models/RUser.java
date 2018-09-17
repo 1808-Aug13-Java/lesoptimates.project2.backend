@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,11 +30,11 @@ public class RUser {
 	@JsonProperty
 	private String uName;
 
-	@Column(name = "name")
+	@Column(name = "NAME")
 	@JsonProperty
 	private String name;
 
-	@Column(name = "email")
+	@Column(name = "EMAIL")
 	@JsonProperty
 	private String email;
 
@@ -42,10 +45,6 @@ public class RUser {
 	@Column(name = "IS_CHEF")
 	@JsonProperty
 	private int isChef;
-
-	@ManyToOne
-	@JoinColumn(name = "RECIPE_ID")
-	private Recipe recipe;
 
 	public RUser() {
 		super();
@@ -99,14 +98,6 @@ public class RUser {
 		this.isChef = isChef;
 	}
 
-	public Recipe getrecipe() {
-		return recipe;
-	}
-
-	public void setrecipe(Recipe recipe) {
-		this.recipe = recipe;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -115,7 +106,6 @@ public class RUser {
 		result = prime * result + isChef;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((pswd == null) ? 0 : pswd.hashCode());
-		result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
 		result = prime * result + ((uName == null) ? 0 : uName.hashCode());
 		result = prime * result + userId;
 		return result;
@@ -157,13 +147,6 @@ public class RUser {
 		} else if (!pswd.equals(other.pswd)) {
 			return false;
 		}
-		if (recipe == null) {
-			if (other.recipe != null) {
-				return false;
-			}
-		} else if (!recipe.equals(other.recipe)) {
-			return false;
-		}
 		if (uName == null) {
 			if (other.uName != null) {
 				return false;
@@ -180,7 +163,8 @@ public class RUser {
 	@Override
 	public String toString() {
 		return "RUser [userId=" + userId + ", uName=" + uName + ", name=" + name + ", email=" + email + ", pswd=" + pswd
-				+ ", isChef=" + isChef + ", recipe=" + recipe + "]";
+				+ ", isChef=" + isChef + "]";
 	}
+
 
 }

@@ -3,6 +3,7 @@ package com.revature.dao;
 import java.util.List;
 
 import com.revature.models.RUser;
+import com.revature.models.Recipe;
 
 public interface UserDAO {
 
@@ -12,8 +13,7 @@ public interface UserDAO {
 	public RUser getUserByUserName(String userName);
 	public int createUser(RUser user);
 	public void deleteUser(RUser user);
-	public void updateUser(RUser user);
-	
+	public RUser updateUser(RUser user);
 	
 	
 }

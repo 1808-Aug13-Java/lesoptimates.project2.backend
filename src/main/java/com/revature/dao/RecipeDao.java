@@ -13,8 +13,8 @@ public interface RecipeDao {
 	public void persistRecipe(Recipe recipe);
 	public Recipe getRecipe(int recipeId);
 	public Recipe loadRecipe(int recipeId);
-	public void deleteRecipe(Recipe recipe);
 	public List<Recipe> getAllRecipes();
 	public List<Recipe> getAllRecipesByUser(RUser user);
+	public void deleteRecipe(Recipe recipe);
 
 }
