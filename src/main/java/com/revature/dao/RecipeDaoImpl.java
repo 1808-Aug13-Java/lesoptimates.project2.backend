@@ -1,10 +1,13 @@
 package com.revature.dao;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.revature.models.RUser;
 import com.revature.models.Recipe;
 import com.revature.util.HibernateUtil;
 
@@ -62,6 +65,29 @@ public class RecipeDaoImpl implements RecipeDao{
 		s.close();
 		return recipe;
 		
+	}
+
+	@Override
+	public void deleteRecipe(Recipe recipe) {
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		s.delete(recipe);
+		tx.commit();
+		s.close();
+	}
+
+	@Override
+	public List<Recipe> getAllRecipes() {
+		Session s = HibernateUtil.getSession();
+		List<Recipe> recipes = s.createQuery("from Recipe").list();
+		s.close();
+		return recipes;
+	}
+
+	@Override
+	public List<Recipe> getAllRecipesByUser(RUser user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
