@@ -29,6 +29,14 @@ public class Recipe {
 	}
 
 
+	public Recipe(String recipeJON) {
+		super();
+		this.recipeJON = recipeJON;
+	}
+
+
+
+
 	public int getRecipeId() {
 		return recipeId;
 	}
