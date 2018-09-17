@@ -7,37 +7,45 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table
 public class RUser {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="userIdSequence")
-	@SequenceGenerator(name="userIdSequence", allocationSize=1, sequenceName="SQ_USERID_PK")
-	@Column(name="USER_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userIdSequence")
+	@SequenceGenerator(name = "userIdSequence", allocationSize = 1, sequenceName = "SQ_USERID_PK")
+	@Column(name = "USER_ID")
+	@JsonProperty
 	private int userId;
-	
-	@Column(name="USER_NAME")
+
+	@Column(name = "USER_NAME")
+	@JsonProperty
 	private String uName;
-	@Column(name="name")
+
+	@Column(name = "name")
+	@JsonProperty
 	private String name;
-	@Column(name="email")
+
+	@Column(name = "email")
+	@JsonProperty
 	private String email;
-	@Column(name="PSWD")
+
+	@Column(name = "PSWD")
+	@JsonProperty
 	private String pswd;
-	@Column(name="IS_CHEF")
-	private String isChef;
-	
-	//@Transient
-		@ManyToOne
-		@JoinColumn(name="RECIPE_ID")
-		private Recipe recipe;
+
+	@Column(name = "IS_CHEF")
+	@JsonProperty
+	private int isChef;
+
+	@ManyToOne
+	@JoinColumn(name = "RECIPE_ID")
+	private Recipe recipe;
 
 	public RUser() {
 		super();
@@ -83,11 +91,11 @@ public class RUser {
 		this.pswd = pswd;
 	}
 
-	public String getIsChef() {
+	public int getIsChef() {
 		return isChef;
 	}
 
-	public void setIsChef(String isChef) {
+	public void setIsChef(int isChef) {
 		this.isChef = isChef;
 	}
 
@@ -104,7 +112,7 @@ public class RUser {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((isChef == null) ? 0 : isChef.hashCode());
+		result = prime * result + isChef;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((pswd == null) ? 0 : pswd.hashCode());
 		result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
@@ -132,11 +140,7 @@ public class RUser {
 		} else if (!email.equals(other.email)) {
 			return false;
 		}
-		if (isChef == null) {
-			if (other.isChef != null) {
-				return false;
-			}
-		} else if (!isChef.equals(other.isChef)) {
+		if (isChef != other.isChef) {
 			return false;
 		}
 		if (name == null) {
@@ -179,5 +183,4 @@ public class RUser {
 				+ ", isChef=" + isChef + ", recipe=" + recipe + "]";
 	}
 
-	
 }
