@@ -1,4 +1,4 @@
-package com.revature.doa;
+package com.revature.dao;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
