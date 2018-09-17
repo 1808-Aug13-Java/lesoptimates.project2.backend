@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import javax.persistence.*;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -9,6 +10,7 @@ import com.revature.models.Recipe;
 import com.revature.util.HibernateUtil;
 
 public class RecipeDaoImpl implements RecipeDao{
+	private static Logger log = Logger.getRootLogger();
 
 	@Override
 	public int saveRecipe(Recipe recipe) {
