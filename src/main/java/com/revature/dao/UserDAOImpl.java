@@ -1,5 +1,6 @@
 package com.revature.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,9 +10,10 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.revature.models.RUser;
+import com.revature.models.Recipe;
 import com.revature.util.HibernateUtil;
 
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
 	private static Logger log = Logger.getRootLogger();
 
@@ -48,7 +50,11 @@ public class UserDAOImpl implements UserDAO{
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
 		cr.add(Restrictions.eq("uName", userName));
-//		RUser user = cr.;
+		if (cr.list().isEmpty()) {
+			RUser user = (RUser) cr.list().get(0);
+			s.close();
+			return user;
+		}
 		s.close();
 		return null;
 	}
@@ -61,19 +67,45 @@ public class UserDAOImpl implements UserDAO{
 		tx.commit();
 		s.close();
 		return custId;
-		
+
 	}
 
 	@Override
 	public void deleteUser(RUser user) {
-		// TODO Auto-generated method stub
-		
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		for (Recipe r : user.getRecipe()) {
+			Recipe r1 = (Recipe) s.get(Recipe.class, r.getRecipeId());
+			if (r1 != null) {
+				s.delete(r1);
+			}
+		}
+		s.delete(user);
+		tx.commit();
+		s.close();
+
 	}
 
 	@Override
 	public void updateUser(RUser user) {
-		// TODO Auto-generated method stub
-		
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		s.merge(user);
+		tx.commit();
+		s.close();
+
+	}
+
+	@Override
+	public List<Recipe> getRecipesByUser(RUser user) {
+		RecipeDao rd = new RecipeDaoImpl();
+		Session s = HibernateUtil.getSession();
+		List<Recipe> recipes = new ArrayList<>();
+		for (Recipe r : user.getRecipe()) {
+			recipes.add(rd.getRecipe(r.getRecipeId()));
+		}
+		s.close();
+		return recipes;
 	}
 
 }
