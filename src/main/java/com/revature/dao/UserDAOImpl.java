@@ -1,6 +1,5 @@
 package com.revature.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -10,7 +9,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.revature.models.RUser;
-import com.revature.models.Recipe;
 import com.revature.util.HibernateUtil;
 
 public class UserDAOImpl implements UserDAO {
@@ -74,12 +72,6 @@ public class UserDAOImpl implements UserDAO {
 	public void deleteUser(RUser user) {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = s.beginTransaction();
-		for (Recipe r : user.getRecipe()) {
-			Recipe r1 = (Recipe) s.get(Recipe.class, r.getRecipeId());
-			if (r1 != null) {
-				s.delete(r1);
-			}
-		}
 		s.delete(user);
 		tx.commit();
 		s.close();
@@ -98,18 +90,6 @@ public class UserDAOImpl implements UserDAO {
 		tx.commit();
 		s.close();
 		return null;
-	}
-
-	@Override
-	public List<Recipe> getRecipesByUser(RUser user) {
-		RecipeDao rd = new RecipeDaoImpl();
-		Session s = HibernateUtil.getSession();
-		List<Recipe> recipes = new ArrayList<>();
-		for (Recipe r : user.getRecipe()) {
-			recipes.add(rd.getRecipe(r.getRecipeId()));
-		}
-		s.close();
-		return recipes;
 	}
 
 }

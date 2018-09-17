@@ -14,7 +14,6 @@ public interface UserDAO {
 	public int createUser(RUser user);
 	public void deleteUser(RUser user);
 	public RUser updateUser(RUser user);
-	public List<Recipe> getRecipesByUser(RUser user);
 	
 	
 }

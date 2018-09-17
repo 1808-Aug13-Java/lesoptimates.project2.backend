@@ -30,11 +30,11 @@ public class RUser {
 	@JsonProperty
 	private String uName;
 
-	@Column(name = "name")
+	@Column(name = "NAME")
 	@JsonProperty
 	private String name;
 
-	@Column(name = "email")
+	@Column(name = "EMAIL")
 	@JsonProperty
 	private String email;
 
@@ -46,20 +46,8 @@ public class RUser {
 	@JsonProperty
 	private int isChef;
 
-	@OneToMany
-	@JoinColumn(name = "RECIPE_ID")
-	private List<Recipe> recipe;
-
 	public RUser() {
 		super();
-	}
-
-	public List<Recipe> getRecipe() {
-		return recipe;
-	}
-
-	public void setRecipe(List<Recipe> recipe) {
-		this.recipe = recipe;
 	}
 
 	public int getUserId() {
@@ -110,16 +98,6 @@ public class RUser {
 		this.isChef = isChef;
 	}
 
-
-
-	@Override
-	public String toString() {
-		return "RUser [userId=" + userId + ", uName=" + uName + ", name=" + name + ", email=" + email + ", pswd=" + pswd
-				+ ", isChef=" + isChef + ", recipe=" + recipe + "]";
-	}
-
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -128,13 +106,10 @@ public class RUser {
 		result = prime * result + isChef;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((pswd == null) ? 0 : pswd.hashCode());
-		result = prime * result + ((recipe == null) ? 0 : recipe.hashCode());
 		result = prime * result + ((uName == null) ? 0 : uName.hashCode());
 		result = prime * result + userId;
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -172,13 +147,6 @@ public class RUser {
 		} else if (!pswd.equals(other.pswd)) {
 			return false;
 		}
-		if (recipe == null) {
-			if (other.recipe != null) {
-				return false;
-			}
-		} else if (!recipe.equals(other.recipe)) {
-			return false;
-		}
 		if (uName == null) {
 			if (other.uName != null) {
 				return false;
@@ -191,5 +159,12 @@ public class RUser {
 		}
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "RUser [userId=" + userId + ", uName=" + uName + ", name=" + name + ", email=" + email + ", pswd=" + pswd
+				+ ", isChef=" + isChef + "]";
+	}
+
 
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.revature.models.RUser;
+import com.revature.models.Recipe;
 
 public class UserController {
 
@@ -28,8 +29,16 @@ public class UserController {
 		return null;
 	}
 	
+	public List<Recipe> getRecipesByUser(){
+		return null;
+	}
+	
 	public int createUser(HttpServletRequest request) {
 		return 0;
+	}
+	
+	public RUser updateProfile(HttpServletRequest request, String username) {
+		return null;
 	}
 
 	public int deleteUser(HttpServletRequest request, String username) {

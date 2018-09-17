@@ -1,11 +1,16 @@
 package com.revature.dao;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
+import com.revature.models.RUser;
 import com.revature.models.Recipe;
 import com.revature.util.HibernateUtil;
 
@@ -22,7 +27,7 @@ public class RecipeDaoImpl implements RecipeDao{
 		return recipePK;
 	}
 
-	//@Table
+
 	public Recipe mergeRecipe(Recipe recipe) {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = s.beginTransaction();
@@ -64,6 +69,24 @@ public class RecipeDaoImpl implements RecipeDao{
 		s.close();
 		return recipe;
 		
+	}
+
+	@Override
+	public List<Recipe> getAllRecipes() {
+		Session s = HibernateUtil.getSession();
+		List<Recipe> recipes = s.createQuery("from Recipe").list();
+		s.close();
+		return recipes;
+	}
+
+	@Override
+	public List<Recipe> getAllRecipesByUser(RUser user) {
+		Session s = HibernateUtil.getSession();
+		Criteria cr = s.createCriteria(Recipe.class);
+		cr.add(Restrictions.eq("userId", user.getUserId()));
+		List<Recipe> recipes = cr.list();
+		s.close();
+		return recipes;
 	}
 
 }

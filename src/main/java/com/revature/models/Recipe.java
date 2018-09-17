@@ -5,7 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -25,7 +27,12 @@ public class Recipe {
 	@Lob
 	@Column( name = "RECIPEJSON" )
 	@JsonProperty
-	private String recipeJON;
+	private String recipeJSON;
+	
+	@ManyToOne
+	@JoinColumn(name="USER_ID")
+	@JsonProperty
+	private RUser user;
 	
 
 	public Recipe() {
@@ -33,13 +40,10 @@ public class Recipe {
 	}
 
 
-	public Recipe(String recipeJON) {
+	public Recipe(String recipeJSON) {
 		super();
-		this.recipeJON = recipeJON;
+		this.recipeJSON = recipeJSON;
 	}
-
-
-
 
 	public int getRecipeId() {
 		return recipeId;
@@ -51,13 +55,23 @@ public class Recipe {
 	}
 
 
-	public String getRecipeJON() {
-		return recipeJON;
+	public String getrecipeJSON() {
+		return recipeJSON;
 	}
 
 
-	public void setRecipeJON(String recipeJON) {
-		this.recipeJON = recipeJON;
+	public void setrecipeJSON(String recipeJSON) {
+		this.recipeJSON = recipeJSON;
+	}
+
+
+	public RUser getUser() {
+		return user;
+	}
+
+
+	public void setUser(RUser user) {
+		this.user = user;
 	}
 
 
@@ -66,7 +80,8 @@ public class Recipe {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + recipeId;
-		result = prime * result + ((recipeJON == null) ? 0 : recipeJON.hashCode());
+		result = prime * result + ((recipeJSON == null) ? 0 : recipeJSON.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -86,11 +101,18 @@ public class Recipe {
 		if (recipeId != other.recipeId) {
 			return false;
 		}
-		if (recipeJON == null) {
-			if (other.recipeJON != null) {
+		if (recipeJSON == null) {
+			if (other.recipeJSON != null) {
 				return false;
 			}
-		} else if (!recipeJON.equals(other.recipeJON)) {
+		} else if (!recipeJSON.equals(other.recipeJSON)) {
+			return false;
+		}
+		if (user == null) {
+			if (other.user != null) {
+				return false;
+			}
+		} else if (!user.equals(other.user)) {
 			return false;
 		}
 		return true;
@@ -99,8 +121,10 @@ public class Recipe {
 
 	@Override
 	public String toString() {
-		return "Recipe [recipeId=" + recipeId + ", recipeJON=" + recipeJON + "]";
+		return "Recipe [recipeId=" + recipeId + ", recipeJSON=" + recipeJSON + ", user=" + user + "]";
 	}
-	
 
+
+
+	
 }
