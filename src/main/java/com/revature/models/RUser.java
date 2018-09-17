@@ -7,37 +7,45 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table
 public class RUser {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="userIdSequence")
-	@SequenceGenerator(name="userIdSequence", allocationSize=1, sequenceName="SQ_USERID_PK")
-	@Column(name="USER_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userIdSequence")
+	@SequenceGenerator(name = "userIdSequence", allocationSize = 1, sequenceName = "SQ_USERID_PK")
+	@Column(name = "USER_ID")
+	@JsonProperty
 	private int userId;
-	
-	@Column(name="USER_NAME")
+
+	@Column(name = "USER_NAME")
+	@JsonProperty
 	private String uName;
-	@Column(name="name")
+
+	@Column(name = "name")
+	@JsonProperty
 	private String name;
-	@Column(name="email")
+
+	@Column(name = "email")
+	@JsonProperty
 	private String email;
-	@Column(name="PSWD")
+
+	@Column(name = "PSWD")
+	@JsonProperty
 	private String pswd;
-	@Column(name="IS_CHEF")
+
+	@Column(name = "IS_CHEF")
+	@JsonProperty
 	private int isChef;
-	
-	//@Transient
-		@ManyToOne
-		@JoinColumn(name="RECIPE_ID")
-		private Recipe recipe;
+
+	@ManyToOne
+	@JoinColumn(name = "RECIPE_ID")
+	private Recipe recipe;
 
 	public RUser() {
 		super();
@@ -175,7 +183,4 @@ public class RUser {
 				+ ", isChef=" + isChef + ", recipe=" + recipe + "]";
 	}
 
-	
-
-	
 }
