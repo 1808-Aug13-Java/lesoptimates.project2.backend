@@ -1,9 +1,14 @@
 package com.revature.util;
 
 import org.apache.log4j.Logger;
+import org.dom4j.rule.Rule;
 import org.hibernate.Session;
 
+import com.revature.controllers.UserController;
 import com.revature.dao.RecipeDaoImpl;
+import com.revature.dao.UserDAO;
+import com.revature.dao.UserDAOImpl;
+import com.revature.models.RUser;
 import com.revature.models.Recipe;
 
 public class Driver {
@@ -12,34 +17,52 @@ public class Driver {
 
 	public static void main(String[] args) {
 		
-		
-		
 		/*
 		  this is only needed to manually test the connection
 		  */
+
 		Session s = HibernateUtil.getSession();
 		s.close();
 		RecipeDaoImpl rdi = new RecipeDaoImpl();
-		Recipe recipe1 = new Recipe("12345 test");
+		UserDAO ud = new UserDAOImpl();
+		Recipe recipe1 = new Recipe("Chillie Mac");
+		RUser user = new RUser();
+		user.setEmail("email");
+		user.setIsChef(0);
+		user.setName("Jaquolin");
+		user.setuName("NastyOnasis");
+		user.setPswd("weakpassword");
+		ud.createUser(user);
 		
+		user.setEmail("email");
+		user.setIsChef(1);
+		user.setName("Dr. Girlfriend");
+		user.setuName("LadyOpare");
+		user.setPswd("weakpassword");
+		ud.createUser(user);
+		
+		
+		recipe1.setUser(user);
 		int pk = rdi.saveRecipe(recipe1);
-		log.info("Stuff " + recipe1.toString());
-//		recipe1.setRecipeId(pk);
+		log.info("################ driver recipe after save " + recipe1.toString());
+		recipe1.setRecipeId(pk);
+		log.info("################ driver recipe after save after id set " + recipe1.toString());
 	
 //		recipe1.setrecipeJSON("09876 test");
 
 //		rdi.mergeRecipe(recipe1);
-//		log.info(rdi.loadRecipe(recipe1.getRecipeId()));
-//		log.info(rdi.loadRecipe(recipe1.getRecipeId()));
-//		log.info(rdi.getRecipe(recipe1.getRecipeId()));
+		log.info("##########Driver: " + rdi.getRecipe(recipe1.getRecipeId()));
 
-//		recipe1.setrecipeJSON("56787 test");
+		recipe1.setrecipeJSON("Fried Rice");
 
-//		rdi.updateRecipe(recipe1);
+		rdi.updateRecipe(recipe1);
 
-//		Recipe recipe2 = new Recipe("persist test");
+		log.info("##########Driver after recipe update: " + rdi.getRecipe(recipe1.getRecipeId()));
+		log.info("########Get all Users: " + UserController.getAllUsers());
+		
+		Recipe recipe2 = new Recipe("persist test");
 
-//		rdi.persistRecipe(recipe2);
+		rdi.persistRecipe(recipe2);
 		
 	}
 	
