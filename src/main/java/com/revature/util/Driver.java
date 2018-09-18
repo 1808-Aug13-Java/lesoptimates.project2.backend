@@ -7,6 +7,7 @@ import com.revature.dao.RecipeDaoImpl;
 import com.revature.models.Recipe;
 
 public class Driver {
+
 	private static Logger log = Logger.getRootLogger();
 
 	public static void main(String[] args) {

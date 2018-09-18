@@ -70,15 +70,7 @@ public class RecipeDaoImpl implements RecipeDao{
 		return recipe;
 		
 	}
-
-	@Override
-	public List<Recipe> getAllRecipes() {
-		Session s = HibernateUtil.getSession();
-		List<Recipe> recipes = s.createQuery("from Recipe").list();
-		s.close();
-		return recipes;
-	}
-
+	
 	@Override
 	public List<Recipe> getAllRecipesByUser(RUser user) {
 		Session s = HibernateUtil.getSession();
@@ -89,4 +81,20 @@ public class RecipeDaoImpl implements RecipeDao{
 		return recipes;
 	}
 
+	@Override
+	public List<Recipe> getAllRecipes() {
+		Session s = HibernateUtil.getSession();
+		List<Recipe> recipes = s.createQuery("from Recipe").list();
+		s.close();
+		return recipes;
+	}
+	
+	@Override
+	public void deleteRecipe(Recipe recipe) {
+		Session s = HibernateUtil.getSession();
+		Transaction tx = s.beginTransaction();
+		s.delete(recipe);
+		tx.commit();
+		s.close();
+	}
 }

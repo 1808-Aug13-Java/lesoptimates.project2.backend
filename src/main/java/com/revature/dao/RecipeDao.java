@@ -15,5 +15,6 @@ public interface RecipeDao {
 	public Recipe loadRecipe(int recipeId);
 	public List<Recipe> getAllRecipes();
 	public List<Recipe> getAllRecipesByUser(RUser user);
+	public void deleteRecipe(Recipe recipe);
 
 }
