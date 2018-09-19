@@ -7,31 +7,38 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOImpl;
 import com.revature.models.RUser;
+import com.revature.services.UserService;
 
 /**
  * 
- * @author jeremiah This controller will handle all user manipulation logic and
- *         provide access to the DAO services
+ * @author jeremiah
  *
  */
+@Controller
 public class UserController {
 
 	private static Logger log = Logger.getRootLogger();
 	private static Set<String> userNameSet = new HashSet<>();
+	private static UserService userServ = new UserService();
+	//TODO implement Session managament for login
 
 	public UserController() {
 		super();
 	}
-
+	
 	private static void loadUsers() {
-		UserDAO userDI = new UserDAOImpl();
-		for (RUser u : userDI.getAllUsers()) {
+		for (RUser u : userServ.getAllUsers()) {
 			userNameSet.add(u.getuName());
 		}
 	}
@@ -42,83 +49,59 @@ public class UserController {
 	 * 
 	 * @return array of JSON objects(as a string) containing user objects
 	 */
-	public static String getAllUsers() {
-		UserDAO ud = new UserDAOImpl();
-		ObjectMapper om = new ObjectMapper();
-
-		List<RUser> users = ud.getAllUsers();
-		String userString = null;
-		try {
-			userString = om.writeValueAsString(users);
-		} catch (JsonProcessingException a) {
-			log.error(a);
-		}
-		return "{\"users\":" + userString + "}";
+	@RequestMapping(method=RequestMethod.GET, value="/getUsers")
+	@ResponseBody
+	public static List<RUser> getAllUsers() {
+		
+		return userServ.getAllUsers();
 	}
 	/**
-	 * 
+	 * To get all Users with Chef status simply call this method with 
+	 * getChefs appended to the url. 
 	 * @return array of JSON objects(as a string) containing chef user objects
 	 */
-	public static String getAllChefs() {
-		UserDAO ud = new UserDAOImpl();
-		ObjectMapper om = new ObjectMapper();
-
-		List<RUser> users = ud.getAllChefs();
-		String userString = null;
-		try {
-			userString = om.writeValueAsString(users);
-		} catch (JsonProcessingException a) {
-			log.error(a);
-		}
-		return "{\"chefs\":" + userString + "}";
+	@RequestMapping(method=RequestMethod.GET, value="/getChefs")
+	@ResponseBody
+	public static List<RUser> getAllChefs() {
+		
+		return userServ.getAllChefs();
 	}
 
 	/**
 	 * 
 	 * @return array of JSON objects(as a string) containing default user objects
 	 */
-	public static String getAllDefaultUsers() {
-		UserDAO ud = new UserDAOImpl();
-		ObjectMapper om = new ObjectMapper();
-
-		List<RUser> users = ud.getAllNonChefs();
-		String userString = null;
-		try {
-			userString = om.writeValueAsString(users);
-		} catch (JsonProcessingException a) {
-			log.error(a);
-		}
-		return "{\"pleabs\":" + userString + "}";
+	@RequestMapping(method=RequestMethod.GET, value="/getDefaultUsers")
+	@ResponseBody
+	public static List<RUser> getAllDefaultUsers() {
+		
+		return userServ.getAllDefaultUsers();
 	}
 
 	/**
 	 * 
-	 * @param request
+	 * @param request body from front end
 	 * @return a message detailing the results of the create action
 	 */
-	public static String createUser(HttpServletRequest request) {
+	@RequestMapping(method=RequestMethod.POST, value="/newUser")
+	@ResponseBody
+	public static String createUser(@RequestParam("name") String name, @RequestParam("userName") String userName,
+			@RequestParam("email") String email, @RequestParam("pswd") String pswd) {
+		
 		loadUsers();
-		//TODO map return strings to be JSON w/objectmapper
 		int setSize = userNameSet.size();
-		boolean isNameAvailable = false;
-		userNameSet.add(request.getParameter("userName"));
+		userNameSet.add(userName);
 		if (setSize == userNameSet.size()) {
 			return "User Name is already taken; please choose a different User Name.";
 		}
-
-		UserDAO udi = new UserDAOImpl();
 		RUser user = new RUser();
-		user.setEmail(request.getParameter("email"));
+		user.setEmail(email);
 		user.setIsChef(0);
-		user.setName(request.getParameter("name"));
-		user.setuName(request.getParameter("userName"));
-		user.setPswd(request.getParameter("pswd"));
+		user.setName(name);
+		user.setuName(userName);
+		user.setPswd(pswd);
 
-		if (udi.createUser(user) > 0) {
-			return "Success";
-		} else {
-			return "Failed";
-		}
+		return userServ.createUser(user);
 
 	}
 
@@ -129,39 +112,35 @@ public class UserController {
 	 * @return the updated user object
 	 * @throws JsonProcessingException 
 	 */
-	public static String updateProfile(HttpServletRequest request, String username) throws JsonProcessingException {
+	@RequestMapping(method=RequestMethod.POST, value="/newUser")
+	@ResponseBody
+	public static RUser updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
+			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
 		/*
 		 * Current logic assumes front end will not return any empty values. If user
 		 * does not input a field, front end should return user's original profile info
 		 * in the request body
 		 */
-		UserDAO udi = new UserDAOImpl();
-		ObjectMapper om = new ObjectMapper();
-		RUser user = udi.getUserByUserName(username);
+		
+		RUser user = userServ.getUserByUserName(userName);
 		if (user == null) {
 			log.info("UserController:updateProfile: User does not exist, or database lookup failed");
 			return null;
 		}
-		user.setEmail(request.getParameter("email"));
-		user.setName(request.getParameter("name"));
-		user.setuName(request.getParameter("userName"));
-		user.setPswd(request.getParameter("pswd"));
-		RUser updatedU = udi.updateUser(user);
-		if (updatedU != null) {
-			String userStr = om.writeValueAsString(updatedU);
-			return "{\"user\":" + userStr + "}";
-		}
-		return null;
+		user.setEmail(email);
+		user.setName(name);
+		user.setPswd(pswd);
+		return userServ.updateUSer(user);
 	}
-
-	public static boolean deleteUser(String username) {
-		UserDAO udi = new UserDAOImpl();
-		RUser user = udi.getUserByUserName(username);
+	@RequestMapping(method=RequestMethod.POST, value="/newUser")
+	@ResponseBody
+	public static boolean deleteUser(@RequestParam("userName") String userName) {
+		RUser user = userServ.getUserByUserName(userName);
 		if(user == null) {
 			log.info("User does not exist, or a databse error occured.");
 			return false;
 		}
-		udi.deleteUser(user);
+		userServ.deleteUser(user);
 		return true;
 	}
 }

@@ -21,38 +21,43 @@ public class Driver {
 		/*
 		  this is only needed to manually test the connection
 		  */
-
-		Session s = HibernateUtil.getSession();
-		s.close();
 		RecipeDaoImpl rdi = new RecipeDaoImpl();
 		UserDAO ud = new UserDAOImpl();
 		Recipe recipe1 = new Recipe("Chillie Mac");
+		Recipe recipe2 = new Recipe("Gumbo");
+		Recipe recipe3 = new Recipe("Staek and Tators");
 		RUser user = new RUser();
-		user.setEmail("email");
-		user.setIsChef(0);
-		user.setName("Jaquolin");
-		user.setuName("NastyOnasis");
-		user.setPswd("weakpassword");
-		ud.createUser(user);
+		RUser user1 = new RUser();
+//		user.setEmail("email");
+//		user.setIsChef(0);
+//		user.setName("Jaquolin");
+//		user.setuName("NastyOnasis");
+//		user.setPswd("weakpassword");
+//		ud.createUser(user);
 		
-		user.setEmail("email");
-		user.setIsChef(1);
-		user.setName("Dr. Girlfriend");
-		user.setuName("LadyOpare");
-		user.setPswd("weakpassword");
-		ud.createUser(user);
+//		user1.setEmail("email");
+//		user1.setIsChef(1);
+//		user1.setName("Dr. Girlfriend");
+//		user1.setuName("LadyAuPair");
+//		user1.setPswd("weakpassword");
+//		ud.createUser(user);
 		
 		
-		recipe1.setUser(user);
+		recipe1.setUser(ud.getUserByUserName("NastyOnasis"));
+		recipe3.setUser(ud.getUserByUserName("NastyOnasis"));
+		recipe2.setUser(ud.getUserByUserName("LadyAuPair"));
 		int pk = rdi.saveRecipe(recipe1);
-		log.info("driver recipe after save " + rdi.getRecipe(recipe1.getRecipeId()).toString());
 		recipe1.setRecipeId(pk);
-		log.info("driver recipe after save after id set " + recipe1.toString());
+		int pk1 = rdi.saveRecipe(recipe2);
+		recipe2.setRecipeId(pk1);
+		int pk2 = rdi.saveRecipe(recipe3);
+		recipe3.setRecipeId(pk2);
+		log.info("driver recipe after save " + rdi.getRecipe(recipe1.getRecipeId()).toString());
+		log.info("driver recipe after save " + rdi.getRecipe(recipe2.getRecipeId()).toString());
+		log.info("driver recipe after save " + rdi.getRecipe(recipe3.getRecipeId()).toString());
 	
-//		recipe1.setrecipeJSON("09876 test");
 
-//		rdi.mergeRecipe(recipe1);
-		List<Recipe> recipes = rdi.getAllRecipesByUser(user);
+		List<Recipe> recipes = rdi.getAllRecipesByUser(ud.getUserByUserName("NastyOnasis"));
 		log.info("Driver called get all recipes by user: ");
 		for (Recipe r: recipes) {
 			log.info("Recipes by user: " + r.toString());
@@ -66,9 +71,9 @@ public class Driver {
 		log.info("Driver after recipe update: " + rdi.getRecipe(recipe1.getRecipeId()));
 		log.info("Get all Users: " + UserController.getAllUsers());
 		
-		Recipe recipe2 = new Recipe("persist test");
+		Recipe recipe4 = new Recipe("persist test");
 
-		rdi.persistRecipe(recipe2);
+		rdi.persistRecipe(recipe4);
 		
 	}
 	
