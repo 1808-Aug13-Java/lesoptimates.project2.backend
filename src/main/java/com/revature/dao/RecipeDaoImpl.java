@@ -72,11 +72,9 @@ public class RecipeDaoImpl implements RecipeDao{
 	@Override
 	public List<Recipe> getAllRecipesByUser(RUser user) {
 		Session s = HibernateUtil.getSession();
-//		Criteria cr = s.createCriteria(Recipe.class);
 		String hql = "FROM Recipe r  WHERE r.user.userId = :id";
 		Query query = s.createQuery(hql);
 		query.setParameter("id", user.getUserId());
-//		cr.add(Restrictions.eq("user", user.getUserId()));
 		List<Recipe> recipes = query.list();
 		s.close();
 		return recipes;
