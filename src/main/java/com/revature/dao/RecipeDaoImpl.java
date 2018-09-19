@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.Query;
 
 import com.revature.models.RUser;
 import com.revature.models.Recipe;
@@ -55,7 +56,7 @@ public class RecipeDaoImpl implements RecipeDao{
 	}
 
 	@Override
-	public Recipe getRecipe(int recipeId) {
+	public Recipe getRecipeByRecipeId(int recipeId) {
 		Session s = HibernateUtil.getSession();
 		Recipe recipe = (Recipe) s.get(Recipe.class, recipeId);
 		s.close();
@@ -74,9 +75,12 @@ public class RecipeDaoImpl implements RecipeDao{
 	@Override
 	public List<Recipe> getAllRecipesByUser(RUser user) {
 		Session s = HibernateUtil.getSession();
-		Criteria cr = s.createCriteria(Recipe.class);
-		cr.add(Restrictions.eq("userId", user.getUserId()));
-		List<Recipe> recipes = cr.list();
+//		Criteria cr = s.createCriteria(Recipe.class);
+		String hql = "FROM Recipe r  WHERE r.user.userId = :id";
+		Query query = s.createQuery(hql);
+		query.setParameter("id", user.getUserId());
+//		cr.add(Restrictions.eq("user", user.getUserId()));
+		List<Recipe> recipes = query.list();
 		s.close();
 		return recipes;
 	}
@@ -96,5 +100,19 @@ public class RecipeDaoImpl implements RecipeDao{
 		s.delete(recipe);
 		tx.commit();
 		s.close();
+	}
+
+
+	@Override
+	public List<Recipe> getAllRecipesByUserId(int userId) {
+		Session s = HibernateUtil.getSession();
+//		Criteria cr = s.createCriteria(Recipe.class);
+		String hql = "FROM Recipe r  WHERE r.user.userId = :id";
+		Query query = s.createQuery(hql);
+		query.setParameter("id", userId);
+//		cr.add(Restrictions.eq("user", user.getUserId()));
+		List<Recipe> recipes = query.list();
+		s.close();
+		return recipes;
 	}
 }
