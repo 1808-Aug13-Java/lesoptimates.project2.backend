@@ -1,47 +1,146 @@
 package com.revature.controllers;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dao.UserDAO;
+import com.revature.dao.UserDAOImpl;
 import com.revature.models.RUser;
-import com.revature.models.Recipe;
+import com.revature.services.UserService;
 
+/**
+ * 
+ * @author jeremiah
+ *
+ */
+@Controller
 public class UserController {
 
 	private static Logger log = Logger.getRootLogger();
-	
-	private UserController() {
+	private static Set<String> userNameSet = new HashSet<>();
+	private static UserService userServ = new UserService();
+	//TODO implement Session managament for login
+
+	public UserController() {
 		super();
 	}
 	
-	public List<RUser> getAllUsers(){
-		return null;
-	}
-	
-	public List<RUser> getAllChefs(){
-		return null;
-	}
-	
-	public List<RUser> getAllDefaultUsers(){
-		return null;
-	}
-	
-	public List<Recipe> getRecipesByUser(){
-		return null;
-	}
-	
-	public int createUser(HttpServletRequest request) {
-		return 0;
-	}
-	
-	public RUser updateProfile(HttpServletRequest request, String username) {
-		return null;
+	private static void loadUsers() {
+		for (RUser u : userServ.getAllUsers()) {
+			userNameSet.add(u.getuName());
+		}
 	}
 
-	public int deleteUser(HttpServletRequest request, String username) {
-		return 0;
+	/**
+	 * This controller method returns all users in the database as a JSON object to
+	 * be handled by the view in our component.ts
+	 * 
+	 * @return array of JSON objects(as a string) containing user objects
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/getUsers")
+	@ResponseBody
+	public static List<RUser> getAllUsers() {
+		
+		return userServ.getAllUsers();
+	}
+	/**
+	 * To get all Users with Chef status simply call this method with 
+	 * getChefs appended to the url. 
+	 * @return array of JSON objects(as a string) containing chef user objects
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/getChefs")
+	@ResponseBody
+	public static List<RUser> getAllChefs() {
+		
+		return userServ.getAllChefs();
+	}
+
+	/**
+	 * 
+	 * @return array of JSON objects(as a string) containing default user objects
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/getDefaultUsers")
+	@ResponseBody
+	public static List<RUser> getAllDefaultUsers() {
+		
+		return userServ.getAllDefaultUsers();
+	}
+
+	/**
+	 * 
+	 * @param request body from front end
+	 * @return a message detailing the results of the create action
+	 */
+	@RequestMapping(method=RequestMethod.POST, value="/newUser")
+	@ResponseBody
+	public static String createUser(@RequestParam("name") String name, @RequestParam("userName") String userName,
+			@RequestParam("email") String email, @RequestParam("pswd") String pswd) {
+		
+		loadUsers();
+		int setSize = userNameSet.size();
+		userNameSet.add(userName);
+		if (setSize == userNameSet.size()) {
+			return "User Name is already taken; please choose a different User Name.";
+		}
+		RUser user = new RUser();
+		user.setEmail(email);
+		user.setIsChef(0);
+		user.setName(name);
+		user.setuName(userName);
+		user.setPswd(pswd);
+
+		return userServ.createUser(user);
+
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param username
+	 * @return the updated user object
+	 * @throws JsonProcessingException 
+	 */
+	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
+	@ResponseBody
+	public static RUser updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
+			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
+		/*
+		 * Current logic assumes front end will not return any empty values. If user
+		 * does not input a field, front end should return user's original profile info
+		 * in the request body
+		 */
+		
+		RUser user = userServ.getUserByUserName(userName);
+		if (user == null) {
+			log.info("UserController:updateProfile: User does not exist, or database lookup failed");
+			return null;
+		}
+		user.setEmail(email);
+		user.setName(name);
+		user.setPswd(pswd);
+		return userServ.updateUSer(user);
+	}
+	@RequestMapping(method=RequestMethod.POST, value="/deleteUser")
+	@ResponseBody
+	public static boolean deleteUser(@RequestParam("userName") String userName) {
+		RUser user = userServ.getUserByUserName(userName);
+		if(user == null) {
+			log.info("User does not exist, or a databse error occured.");
+			return false;
+		}
+		userServ.deleteUser(user);
+		return true;
 	}
 }
