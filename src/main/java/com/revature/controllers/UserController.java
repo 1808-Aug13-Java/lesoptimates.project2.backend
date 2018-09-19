@@ -112,7 +112,7 @@ public class UserController {
 	 * @return the updated user object
 	 * @throws JsonProcessingException 
 	 */
-	@RequestMapping(method=RequestMethod.POST, value="/newUser")
+	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
 	@ResponseBody
 	public static RUser updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
 			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
@@ -132,7 +132,7 @@ public class UserController {
 		user.setPswd(pswd);
 		return userServ.updateUSer(user);
 	}
-	@RequestMapping(method=RequestMethod.POST, value="/newUser")
+	@RequestMapping(method=RequestMethod.POST, value="/deleteUser")
 	@ResponseBody
 	public static boolean deleteUser(@RequestParam("userName") String userName) {
 		RUser user = userServ.getUserByUserName(userName);
