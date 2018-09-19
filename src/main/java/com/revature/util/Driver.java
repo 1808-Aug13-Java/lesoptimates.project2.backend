@@ -45,17 +45,17 @@ public class Driver {
 		
 		recipe1.setUser(user);
 		int pk = rdi.saveRecipe(recipe1);
-		log.info("################ driver recipe after save " + rdi.getRecipe(recipe1.getRecipeId()).toString());
+		log.info("driver recipe after save " + rdi.getRecipe(recipe1.getRecipeId()).toString());
 		recipe1.setRecipeId(pk);
-		log.info("################ driver recipe after save after id set " + recipe1.toString());
+		log.info("driver recipe after save after id set " + recipe1.toString());
 	
 //		recipe1.setrecipeJSON("09876 test");
 
 //		rdi.mergeRecipe(recipe1);
 		List<Recipe> recipes = rdi.getAllRecipesByUser(user);
-		log.info("##########Driver called get all recipes by user: ");
+		log.info("Driver called get all recipes by user: ");
 		for (Recipe r: recipes) {
-			log.info("##########Recipes by user: " + r.toString());
+			log.info("Recipes by user: " + r.toString());
 		}
 		
 
@@ -63,8 +63,8 @@ public class Driver {
 
 		rdi.updateRecipe(recipe1);
 
-		log.info("##########Driver after recipe update: " + rdi.getRecipe(recipe1.getRecipeId()));
-		log.info("########Get all Users: " + UserController.getAllUsers());
+		log.info("Driver after recipe update: " + rdi.getRecipe(recipe1.getRecipeId()));
+		log.info("Get all Users: " + UserController.getAllUsers());
 		
 		Recipe recipe2 = new Recipe("persist test");
 
