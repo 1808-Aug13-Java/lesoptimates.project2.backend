@@ -40,7 +40,7 @@ public class UserController {
 	 * This controller method returns all users in the database as a JSON object to
 	 * be handled by the view in our component.ts
 	 * 
-	 * @return JSON object containing list of user objects
+	 * @return array of JSON objects(as a string) containing user objects
 	 */
 	public static String getAllUsers() {
 		UserDAO ud = new UserDAOImpl();
@@ -55,7 +55,10 @@ public class UserController {
 		}
 		return "{\"users\":" + userString + "}";
 	}
-
+	/**
+	 * 
+	 * @return array of JSON objects(as a string) containing chef user objects
+	 */
 	public static String getAllChefs() {
 		UserDAO ud = new UserDAOImpl();
 		ObjectMapper om = new ObjectMapper();
@@ -70,6 +73,10 @@ public class UserController {
 		return "{\"chefs\":" + userString + "}";
 	}
 
+	/**
+	 * 
+	 * @return array of JSON objects(as a string) containing default user objects
+	 */
 	public static String getAllDefaultUsers() {
 		UserDAO ud = new UserDAOImpl();
 		ObjectMapper om = new ObjectMapper();
@@ -84,8 +91,14 @@ public class UserController {
 		return "{\"pleabs\":" + userString + "}";
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @return a message detailing the results of the create action
+	 */
 	public static String createUser(HttpServletRequest request) {
 		loadUsers();
+		//TODO map return strings to be JSON w/objectmapper
 		int setSize = userNameSet.size();
 		boolean isNameAvailable = false;
 		userNameSet.add(request.getParameter("userName"));
@@ -109,13 +122,21 @@ public class UserController {
 
 	}
 
-	public static RUser updateProfile(HttpServletRequest request, String username) {
+	/**
+	 * 
+	 * @param request
+	 * @param username
+	 * @return the updated user object
+	 * @throws JsonProcessingException 
+	 */
+	public static String updateProfile(HttpServletRequest request, String username) throws JsonProcessingException {
 		/*
 		 * Current logic assumes front end will not return any empty values. If user
 		 * does not input a field, front end should return user's original profile info
 		 * in the request body
 		 */
 		UserDAO udi = new UserDAOImpl();
+		ObjectMapper om = new ObjectMapper();
 		RUser user = udi.getUserByUserName(username);
 		if (user == null) {
 			log.info("UserController:updateProfile: User does not exist, or database lookup failed");
@@ -127,7 +148,8 @@ public class UserController {
 		user.setPswd(request.getParameter("pswd"));
 		RUser updatedU = udi.updateUser(user);
 		if (updatedU != null) {
-			return updatedU;
+			String userStr = om.writeValueAsString(updatedU);
+			return "{\"user\":" + userStr + "}";
 		}
 		return null;
 	}
