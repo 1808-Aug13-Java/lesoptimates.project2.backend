@@ -23,17 +23,17 @@ public class Driver {
 		/*
 		  this is only needed to manually test the connection
 		  */
-		Session s = HibernateUtil.getSession();
+//		Session s = HibernateUtil.getSession();
 
-		RecipeDaoImpl rdi = new RecipeDaoImpl();
-		UserDAO ud = new UserDAOImpl();
-		Recipe recipe1 = new Recipe("Chillie Mac");
-		Recipe recipe2 = new Recipe("Gumbo");
-		Recipe recipe3 = new Recipe("Staek and Tators");
-		RUser user = new RUser();
-		RUser user1 = new RUser();
-		
-		s.close();
+//		RecipeDaoImpl rdi = new RecipeDaoImpl();
+//		UserDAO ud = new UserDAOImpl();
+//		Recipe recipe1 = new Recipe("Chillie Mac");
+//		Recipe recipe2 = new Recipe("Gumbo");
+//		Recipe recipe3 = new Recipe("Staek and Tators");
+//		RUser user = new RUser();
+//		RUser user1 = new RUser();
+//		
+//		s.close();
 		
 //		user.setEmail("email");
 //		user.setIsChef(0);
@@ -82,7 +82,7 @@ public class Driver {
 //
 //		rdi.persistRecipe(recipe4);
 //		
-//		
+////		------------------------------------------------------------
 //		UserDAO udi = new UserDAOImpl();
 //		RecipeDao rdi = new RecipeDaoImpl();
 //		
@@ -209,6 +209,7 @@ public class Driver {
 //		rc.printRecipe(recipe5);
 //		rc.printRecipesByUser(user5);
 //		rc.printRecipesByUserId(u5PK);
+		
 		
 
 		
