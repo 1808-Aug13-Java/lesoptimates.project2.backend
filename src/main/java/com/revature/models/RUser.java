@@ -158,8 +158,8 @@ public class RUser {
 
 	@Override
 	public String toString() {
-		return "RUser [userId=" + userId + ", uName=" + uName + ", name=" + name + ", email=" + email + ", pswd=" + pswd
-				+ ", isChef=" + isChef + "]";
+		return "RUser [userId=" + userId + ", " + (uName != null ? "uName=" + uName + ", " : "")
+				 + "isChef=" + isChef + "]";
 	}
 
 

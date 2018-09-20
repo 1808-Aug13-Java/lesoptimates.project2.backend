@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import com.revature.dao.UserDAO;
@@ -43,5 +44,14 @@ public class UserService {
 	
 	public void deleteUser(RUser user) {
 		ud.deleteUser(user);
+	}
+	
+	public RUser authenticateUser(String userName, String pswd) {
+		RUser user = ud.getUserByUserName(userName);
+		if(user.getPswd().equals(pswd)) {
+			return user;
+		}
+		
+		return null;
 	}
 }

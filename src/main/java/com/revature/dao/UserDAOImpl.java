@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.revature.models.RUser;
@@ -18,7 +20,13 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<RUser> getAllUsers() {
 		Session s = HibernateUtil.getSession();
-		List<RUser> users = s.createQuery("from RUser").list();
+		Criteria cr = s.createCriteria(RUser.class);
+		ProjectionList projList = Projections.projectionList();
+		projList.add(Projections.property("uName"));
+		projList.add(Projections.property("isChef"));
+		projList.add(Projections.property("name"));
+		cr.setProjection(projList);
+		List<RUser> users = cr.list();
 		s.close();
 		return users;
 	}
@@ -27,7 +35,12 @@ public class UserDAOImpl implements UserDAO {
 	public List<RUser> getAllChefs() {
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
+		ProjectionList projList = Projections.projectionList();
+		projList.add(Projections.property("uName"));
+		projList.add(Projections.property("isChef"));
+		projList.add(Projections.property("name"));
 		cr.add(Restrictions.eq("isChef", 1));
+		cr.setProjection(projList);
 		List<RUser> users = cr.list();
 		s.close();
 		return users;
@@ -37,7 +50,12 @@ public class UserDAOImpl implements UserDAO {
 	public List<RUser> getAllNonChefs() {
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
+		ProjectionList projList = Projections.projectionList();
+		projList.add(Projections.property("uName"));
+		projList.add(Projections.property("isChef"));
+		projList.add(Projections.property("name"));
 		cr.add(Restrictions.eq("isChef", 0));
+		cr.setProjection(projList);
 		List<RUser> users = cr.list();
 		s.close();
 		return users;

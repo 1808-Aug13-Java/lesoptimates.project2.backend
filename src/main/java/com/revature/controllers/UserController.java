@@ -4,19 +4,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.dao.UserDAO;
-import com.revature.dao.UserDAOImpl;
 import com.revature.models.RUser;
 import com.revature.services.UserService;
 
@@ -25,7 +20,7 @@ import com.revature.services.UserService;
  * @author jeremiah
  *
  */
-@Controller
+@RestController
 public class UserController {
 
 	private static Logger log = Logger.getRootLogger();
@@ -50,7 +45,6 @@ public class UserController {
 	 * @return array of JSON objects(as a string) containing user objects
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getUsers")
-	@ResponseBody
 	public static List<RUser> getAllUsers() {
 		
 		return userServ.getAllUsers();
@@ -61,7 +55,6 @@ public class UserController {
 	 * @return array of JSON objects(as a string) containing chef user objects
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/getChefs")
-	@ResponseBody
 	public static List<RUser> getAllChefs() {
 		
 		return userServ.getAllChefs();
@@ -71,8 +64,7 @@ public class UserController {
 	 * 
 	 * @return array of JSON objects(as a string) containing default user objects
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/getDefaultUsers")
-	@ResponseBody
+	@RequestMapping(method=RequestMethod.POST, value="/getDefaultUsers")
 	public static List<RUser> getAllDefaultUsers() {
 		
 		return userServ.getAllDefaultUsers();
@@ -84,7 +76,6 @@ public class UserController {
 	 * @return a message detailing the results of the create action
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/newUser")
-	@ResponseBody
 	public static String createUser(@RequestParam("name") String name, @RequestParam("userName") String userName,
 			@RequestParam("email") String email, @RequestParam("pswd") String pswd) {
 		
@@ -113,7 +104,6 @@ public class UserController {
 	 * @throws JsonProcessingException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
-	@ResponseBody
 	public static RUser updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
 			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
 		/*
@@ -133,7 +123,6 @@ public class UserController {
 		return userServ.updateUSer(user);
 	}
 	@RequestMapping(method=RequestMethod.POST, value="/deleteUser")
-	@ResponseBody
 	public static boolean deleteUser(@RequestParam("userName") String userName) {
 		RUser user = userServ.getUserByUserName(userName);
 		if(user == null) {
