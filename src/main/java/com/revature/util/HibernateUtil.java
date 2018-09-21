@@ -7,7 +7,11 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> c96a7c10968082faaa8ead982eb7bdad04968a01
 	private HibernateUtil() {
 		super();
 	}
@@ -20,11 +24,19 @@ public class HibernateUtil {
 			ServiceRegistry sr = new StandardServiceRegistryBuilder().applySettings(c.getProperties()).build();
 			HibernateUtil.sessionFactory = c.buildSessionFactory(sr);
 		}
+<<<<<<< HEAD
+=======
+		
+>>>>>>> c96a7c10968082faaa8ead982eb7bdad04968a01
 		return HibernateUtil.sessionFactory;
 	}
 	
 	public static Session getSession() {
 		return getSessionFactory("hibernate.cfg.xml").openSession();
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> c96a7c10968082faaa8ead982eb7bdad04968a01
 }
