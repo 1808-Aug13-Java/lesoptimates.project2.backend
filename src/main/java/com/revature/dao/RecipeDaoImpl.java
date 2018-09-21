@@ -53,7 +53,7 @@ public class RecipeDaoImpl implements RecipeDao{
 	}
 
 	@Override
-	public Recipe getRecipe(int recipeId) {
+	public Recipe getRecipeByRecipeId(int recipeId) {
 		Session s = HibernateUtil.getSession();
 		Recipe recipe = (Recipe) s.get(Recipe.class, recipeId);
 		s.close();
@@ -95,5 +95,19 @@ public class RecipeDaoImpl implements RecipeDao{
 		s.delete(recipe);
 		tx.commit();
 		s.close();
+	}
+
+
+	@Override
+	public List<Recipe> getAllRecipesByUserId(int userId) {
+		Session s = HibernateUtil.getSession();
+//		Criteria cr = s.createCriteria(Recipe.class);
+		String hql = "FROM Recipe r  WHERE r.user.userId = :id";
+		Query query = s.createQuery(hql);
+		query.setParameter("id", userId);
+//		cr.add(Restrictions.eq("user", user.getUserId()));
+		List<Recipe> recipes = query.list();
+		s.close();
+		return recipes;
 	}
 }

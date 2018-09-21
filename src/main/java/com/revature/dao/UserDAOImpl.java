@@ -66,7 +66,21 @@ public class UserDAOImpl implements UserDAO {
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
 		cr.add(Restrictions.eq("uName", userName));
-		if (cr.list().isEmpty()) {
+		if (!cr.list().isEmpty()) {
+			RUser user = (RUser) cr.list().get(0);
+			s.close();
+			return user;
+		}
+		s.close();
+		return null;
+	}
+	
+	@Override
+	public RUser getUserByUserId(int userId) {
+		Session s = HibernateUtil.getSession();
+		Criteria cr = s.createCriteria(RUser.class);
+		cr.add(Restrictions.eq("userId", userId));
+		if (!cr.list().isEmpty()) {
 			RUser user = (RUser) cr.list().get(0);
 			s.close();
 			return user;
