@@ -1,17 +1,6 @@
 package com.revature.util;
 
-<<<<<<< HEAD
 import org.hibernate.Session;
-
-public class Driver {
-
-	public static void main(String[] args) {
-		
-		Session s = HibernateUtil.getSession();
-		s.close();
-	}
-
-=======
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -223,12 +212,6 @@ public class Driver {
 //		rc.printRecipesByUserId(u5PK);
 		
 		
-
-		
-		
 	}
 	
-	
-	
->>>>>>> c96a7c10968082faaa8ead982eb7bdad04968a01
 }
