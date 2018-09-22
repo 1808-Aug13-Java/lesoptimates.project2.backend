@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.lesopt.foodfinder.models;
 
 
 import javax.persistence.Column;
@@ -12,41 +12,41 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table
 public class RUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userIdSequence")
 	@SequenceGenerator(name = "userIdSequence", allocationSize = 1, sequenceName = "SQ_USERID_PK")
-	@Column(name = "USER_ID")
 	@JsonProperty
-	private int userId;
+	private Integer userId;
 
-	@Column(name = "USER_NAME")
 	@JsonProperty
 	private String uName;
 
-	@Column(name = "NAME")
 	@JsonProperty
 	private String name;
 
-	@Column(name = "EMAIL")
 	@JsonProperty
 	private String email;
 
-	@Column(name = "PSWD")
 	@JsonProperty
 	private String pswd;
 
-	@Column(name = "IS_CHEF")
 	@JsonProperty
 	private int isChef;
 
 	public RUser() {
-		super();
 	}
+  
+  public RUser(String uName, String name, String email, String pswd, int isChef) {
+    this.uName = uName;
+    this.name = name;
+    this.email = email;
+    this.pswd = pswd;
+    this.isChef = isChef;
+  }
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
@@ -58,7 +58,7 @@ public class RUser {
 		this.email = email;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 

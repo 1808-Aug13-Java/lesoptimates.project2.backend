@@ -1,5 +1,6 @@
-package com.revature.models;
+package com.lesopt.foodfinder.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,43 +15,38 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table
 public class Recipe {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="recipeIdSequence")
-	@SequenceGenerator(name="recipeIdSequence", allocationSize=1, sequenceName="SQ_RECIPEID_PK")
-	@Column(name="RECIPE_ID")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipeIdSequence")
+	@SequenceGenerator(name = "recipeIdSequence", allocationSize = 1, sequenceName = "SQ_RECIPE_PK")
 	@JsonProperty
-	private int recipeId;
+	private Integer recipeId;
 	
-	@Lob
-	@Column( name = "RECIPEJSON" )
 	@JsonProperty
 	private String recipeJSON;
 	
-	@ManyToOne
-	@JoinColumn(name="USER_ID")
+  @Autowired
+  @ManyToOne
 	@JsonProperty
 	private RUser user;
 	
 
 	public Recipe() {
-		super();
 	}
 
-
-	public Recipe(String recipeJSON) {
-		super();
+  @Autowired
+	public Recipe(String recipeJSON, RUser user) {
 		this.recipeJSON = recipeJSON;
+    this.user=user;
 	}
 
-	public int getRecipeId() {
+	public Integer getRecipeId() {
 		return recipeId;
 	}
 
 
-	public void setRecipeId(int recipeId) {
+	public void setRecipeId(Integer recipeId) {
 		this.recipeId = recipeId;
 	}
 
