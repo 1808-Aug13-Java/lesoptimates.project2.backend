@@ -26,11 +26,12 @@ public class UserService {
 		return ud.getAllNonChefs();
 	}
 	
-	public String createUser(RUser user) {
-		if (ud.createUser(user) > 0) {
-			return "Success";
+	public RUser createUser(RUser user) {
+		int userId = ud.createUser(user);
+		if (userId > 0) {
+			return ud.getUserByUserId(userId);
 		} else {
-			return "Failed";
+			return null;
 		}
 	}
 	

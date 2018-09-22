@@ -94,7 +94,9 @@ public class UserController {
 		user.setuName(userName);
 		user.setPswd(pswd);
 
-		return userServ.createUser(user);
+		
+		
+		return userServ.createUser(user).getuName();
 
 	}
 

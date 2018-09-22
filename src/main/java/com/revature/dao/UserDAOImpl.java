@@ -97,7 +97,6 @@ public class UserDAOImpl implements UserDAO {
 		tx.commit();
 		s.close();
 		return custId;
-
 	}
 
 	@Override
