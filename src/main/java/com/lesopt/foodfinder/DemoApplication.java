@@ -21,8 +21,8 @@ public class DemoApplication {
   @Bean
   public CommandLineRunner demo(UserRepository rUserRepo, RecipeRepository recipeRepo) {
     return (args) -> {
-      User rUser1 = rUserRepo.save(new User("username", "fullname", "email@", "pass", 0));
-      User rUser2 = rUserRepo.save(new User("jackbauer", "Jack Bauer", "jack@@", "123", User.IS_CHEF));
+      User rUser1 = rUserRepo.save(new User("username", "firstname", "lastname", "email@", "pass", User.IS_NOT_CHEF));
+      User rUser2 = rUserRepo.save(new User("jackbauer", "Jack", "Bauer", "jack@@", "123", User.IS_CHEF));
       String recipeJson = "{\"title\": \"recipe title\", \"publisher\": \"some publisher\" }";
       recipeRepo.save(new Recipe(recipeJson, rUser1));
       for(User u : rUserRepo.findAll()) {

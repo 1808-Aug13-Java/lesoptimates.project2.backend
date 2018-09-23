@@ -20,7 +20,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId; //int cannot be passed as a Generic Type argument (for extending CrudRepository)
 	private String username;
-	private String name;
+	private String firstname;
+	private String lastname;
 	private String email;
 	private String passw;
 	private Integer isChef; //Integer, for consistency
@@ -28,9 +29,10 @@ public class User {
 	public User() {
 	}
   
-  public User(String username, String name, String email, String passw, Integer isChef) {
+  public User(String username, String firstname, String lastname, String email, String passw, Integer isChef) {
     this.username = username;
-    this.name = name;
+    this.firstname = firstname;
+    this.lastname = lastname;
     this.email = email;
     this.passw = passw;
     this.isChef = isChef;
@@ -60,14 +62,6 @@ public class User {
 		this.username = username;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getPassw() {
 		return passw;
 	}
@@ -90,7 +84,6 @@ public class User {
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + isChef;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((passw == null) ? 0 : passw.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + userId;
@@ -119,11 +112,18 @@ public class User {
 		if (isChef != other.isChef) {
 			return false;
 		}
-		if (name == null) {
-			if (other.name != null) {
+		if (firstname == null) {
+			if (other.firstname != null) {
 				return false;
 			}
-		} else if (!name.equals(other.name)) {
+		if (lastname == null) {
+			if (other.lastname != null) {
+				return false;
+			}
+		} else if (!firstname.equals(other.firstname)) {
+			return false;
+		}
+		} else if (!lastname.equals(other.lastname)) {
 			return false;
 		}
 		if (passw == null) {
@@ -153,4 +153,44 @@ public class User {
 	}
 
 
+	
+	/**
+	 * Get firstname.
+	 *
+	 * @return firstname as String.
+	 */
+	public String getFirstname()
+	{
+	    return firstname;
+	}
+	
+	/**
+	 * Set firstname.
+	 *
+	 * @param firstname the value to set.
+	 */
+	public void setFirstname(String firstname)
+	{
+	    this.firstname = firstname;
+	}
+	
+	/**
+	 * Get lastname.
+	 *
+	 * @return lastname as String.
+	 */
+	public String getLastname()
+	{
+	    return lastname;
+	}
+	
+	/**
+	 * Set lastname.
+	 *
+	 * @param lastname the value to set.
+	 */
+	public void setLastname(String lastname)
+	{
+	    this.lastname = lastname;
+	}
 }
