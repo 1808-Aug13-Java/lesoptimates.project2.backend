@@ -52,7 +52,7 @@ public class UserController {
 	}
 
 	@RequestMapping(method=RequestMethod.POST, value="/new")
-	public static String createUser(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname, @RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("passw") String passw) {
+	public static String createUser(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname, @RequestParam("username") String username, @RequestParam("passw") String passw, @RequestParam("email") String email) {
 		
 		//loadUsers();
 		//int setSize = usernameSet.size();

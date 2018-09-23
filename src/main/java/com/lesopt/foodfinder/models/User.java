@@ -29,12 +29,12 @@ public class User {
 	public User() {
 	}
   
-  public User(String username, String firstname, String lastname, String email, String passw, Integer isChef) {
-    this.username = username;
+  public User(String firstname, String lastname, String username, String passw, String email, Integer isChef) {
     this.firstname = firstname;
     this.lastname = lastname;
-    this.email = email;
+    this.username = username;
     this.passw = passw;
+    this.email = email;
     this.isChef = isChef;
   }
 
