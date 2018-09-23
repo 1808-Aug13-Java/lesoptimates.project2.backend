@@ -19,6 +19,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId; //int cannot be passed as a Generic Type argument (for extending CrudRepository)
+  @Column(unique=true)
 	private String username;
 	private String firstname;
 	private String lastname;

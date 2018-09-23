@@ -1,0 +1,2 @@
+#!/bin/usr/env bash
+curl -i -X POST -H "Content-Type:application/json" -d '{"firstname": "Frodo", "lastname": "Baggins", "username": "frobaggins", "passw": "123", "email": "frobaggins@", "isChef": false}' http://localhost:8080/users/new

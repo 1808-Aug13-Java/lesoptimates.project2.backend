@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,7 +33,7 @@ public class UserController {
   @Autowired
   UserRepository userRepo;   
 
-  @GetMapping(value="/users", produces=MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value="/users", produces=MediaType.APPLICATION_JSON_VALUE)
 	public Iterable<User> getAllUsers() {
 		return userRepo.findAll();  
 	}
@@ -51,22 +53,11 @@ public class UserController {
 		return userRepo.findByUserIdAndIsChef(userId, User.IS_NOT_CHEF);
 	}
 
-	@RequestMapping(method=RequestMethod.POST, value="/new")
-	public static String createUser(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname, @RequestParam("username") String username, @RequestParam("passw") String passw, @RequestParam("email") String email) {
-		
-		//loadUsers();
-		//int setSize = usernameSet.size();
-		//usernameSet.add(username);
-		//if (setSize == usernameSet.size()) {
-		//	return "User Name is already taken; please choose a different User Name.";
-		//}
-		User user = new User();
-		user.setEmail(email);
-		user.setIsChef(User.IS_NOT_CHEF);
-		user.setUsername(username);
-		user.setPassw(passw);
-
-		
+	@PostMapping(value="/users/new", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public String createUser(@RequestBody User u) {
+    //boolean usernameExists = userRepo.existsByUsername(username);
+    
+    userRepo.save(u);
 		
     return "heyo";
 		//return userServ.createUser(user).getuName();
