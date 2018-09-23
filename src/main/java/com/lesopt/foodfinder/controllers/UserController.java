@@ -63,7 +63,7 @@ public class UserController {
 		//}
 		User user = new User();
 		user.setEmail(email);
-		user.setIsChef(0);
+		user.setIsChef(User.IS_NOT_CHEF);
 		user.setName(name);
 		user.setUsername(username);
 		user.setPassw(passw);
