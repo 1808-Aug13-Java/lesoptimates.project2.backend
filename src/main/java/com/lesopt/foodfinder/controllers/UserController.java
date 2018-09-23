@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,49 +57,22 @@ public class UserController {
 
 	@PostMapping(value="/users/new", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String createUser(@RequestBody User u) {
-    //boolean usernameExists = userRepo.existsByUsername(username);
-    
+    if(userRepo.existsByUsername(u.getUsername())) {
+      return "redirect:/users/new";
+    }
     userRepo.save(u);
-		
-    return "heyo";
-		//return userServ.createUser(user).getuName();
+    return "redirect:/";
 
 	}
 
-//	/**
-//	 * 
-//	 * @param request
-//	 * @param username
-//	 * @return the updated user object
-//	 * @throws JsonProcessingException 
-//	 */
-//	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
-//	public static User updateProfile(@RequestParam("name") String name, @RequestParam("username") String username,
-//			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
-//		/*
-//		 * Current logic assumes front end will not return any empty values. If user
-//		 * does not input a field, front end should return user's original profile info
-//		 * in the request body
-//		 */
-//		
-//		User user = userServ.getUserByUserName(username);
-//		if (user == null) {
-//			log.info("UserController:updateProfile: User does not exist, or database lookup failed");
-//			return null;
-//		}
-//		user.setEmail(email);
-//		user.setName(name);
-//		user.setPswd(pswd);
-//		return userServ.updateUSer(user);
-//	}
-//	@RequestMapping(method=RequestMethod.POST, value="/deleteUser")
-//	public static boolean deleteUser(@RequestParam("username") String username) {
-//		User user = userServ.getUserByUserName(username);
-//		if(user == null) {
-//			log.info("User does not exist, or a databse error occured.");
-//			return false;
-//		}
-//		userServ.deleteUser(user);
-//		return true;
-//	}
+	@DeleteMapping(value="/users/{username}")
+	public void deleteUser(@PathVariable("username") String username) {
+    User user = userRepo.findByUsername(username);
+    userRepo.delete(user);
+	}
+
+	@PutMapping(value="/users/{username}")
+	public void updateUser(@RequestBody User user) throws JsonProcessingException {
+		userRepo.save(user);
+	}
 }
