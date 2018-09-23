@@ -20,23 +20,16 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipeIdSequence")
 	@SequenceGenerator(name = "recipeIdSequence", allocationSize = 1, sequenceName = "SQ_RECIPE_PK")
-	@JsonProperty
 	private Integer recipeId;
-	
-	@JsonProperty
 	private String recipeJSON;
-	
   @Autowired
   @ManyToOne
-	@JsonProperty
-	private RUser user;
-	
-
+	private User user;
 	public Recipe() {
 	}
 
   @Autowired
-	public Recipe(String recipeJSON, RUser user) {
+	public Recipe(String recipeJSON, User user) {
 		this.recipeJSON = recipeJSON;
     this.user=user;
 	}
@@ -61,12 +54,12 @@ public class Recipe {
 	}
 
 
-	public RUser getUser() {
+	public User getUser() {
 		return user;
 	}
 
 
-	public void setUser(RUser user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

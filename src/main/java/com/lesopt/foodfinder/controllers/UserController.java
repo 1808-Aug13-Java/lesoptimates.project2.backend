@@ -1,77 +1,56 @@
-//package com.revature.controllers;
-//
-//import java.util.HashSet;
-//import java.util.List;
-//import java.util.Set;
-//
-//import org.apache.log4j.Logger;
-//import org.springframework.web.bind.annotation.CrossOrigin;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.ResponseBody;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.fasterxml.jackson.core.JsonProcessingException;
-//import com.revature.models.RUser;
-//import com.revature.services.UserService;
-//
-///**
-// * 
-// * @author jeremiah
-// *
-// */
-//@RestController
-//@CrossOrigin
-//public class UserController {
-//
-//	private static Logger log = Logger.getRootLogger();
-//	private static Set<String> userNameSet = new HashSet<>();
-//	private static UserService userServ = new UserService();
-//	//TODO implement Session managament for login
-//
-//	public UserController() {
-//		super();
-//	}
-//	
-//	private static void loadUsers() {
-//		for (RUser u : userServ.getAllUsers()) {
-//			userNameSet.add(u.getuName());
-//		}
-//	}
-//
-//	/**
-//	 * This controller method returns all users in the database as a JSON object to
-//	 * be handled by the view in our component.ts
-//	 * 
-//	 * @return array of JSON objects(as a string) containing user objects
-//	 */
-//	@RequestMapping(method=RequestMethod.GET, value="/getUsers")
-//	public static List<RUser> getAllUsers() {
-//		
-//		return userServ.getAllUsers();
-//	}
-//	/**
-//	 * To get all Users with Chef status simply call this method with 
-//	 * getChefs appended to the url. 
-//	 * @return array of JSON objects(as a string) containing chef user objects
-//	 */
-//	@RequestMapping(method=RequestMethod.GET, value="/getChefs")
-//	public static List<RUser> getAllChefs() {
-//		
-//		return userServ.getAllChefs();
-//	}
-//
-//	/**
-//	 * 
-//	 * @return array of JSON objects(as a string) containing default user objects
-//	 */
-//	@RequestMapping(method=RequestMethod.POST, value="/getDefaultUsers")
-//	public static List<RUser> getAllDefaultUsers() {
-//		
-//		return userServ.getAllDefaultUsers();
-//	}
-//
+package com.lesopt.foodfinder.controllers; 
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import com.lesopt.foodfinder.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.lesopt.foodfinder.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/**
+ * 
+ * @author jeremiah
+ *
+ */
+@RestController
+@CrossOrigin
+public class UserController {
+
+  @Autowired
+  UserRepository userRepo;   
+
+  @GetMapping(value="/users", produces=MediaType.APPLICATION_JSON_VALUE)
+	public Iterable<User> getAllUsers() {
+		return userRepo.findAll();  
+	}
+  
+  @GetMapping(value="/chefs", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<User> findAllChefs() {
+		return userRepo.findByIsChef(User.IS_CHEF);  
+	}
+
+  @GetMapping(value="/chefs/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<User> findChefById(@PathVariable("userId") Integer userId) {
+		return userRepo.findByUserIdAndIsChef(userId, User.IS_CHEF);
+	}
+
+  @GetMapping(value="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<User> findUserById(@PathVariable("userId") Integer userId) {
+		return userRepo.findByUserIdAndIsChef(userId, User.IS_NOT_CHEF);
+	}
+
 //	/**
 //	 * 
 //	 * @param request body from front end
@@ -87,7 +66,7 @@
 //		if (setSize == userNameSet.size()) {
 //			return "User Name is already taken; please choose a different User Name.";
 //		}
-//		RUser user = new RUser();
+//		User user = new User();
 //		user.setEmail(email);
 //		user.setIsChef(0);
 //		user.setName(name);
@@ -108,7 +87,7 @@
 //	 * @throws JsonProcessingException 
 //	 */
 //	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
-//	public static RUser updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
+//	public static User updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
 //			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
 //		/*
 //		 * Current logic assumes front end will not return any empty values. If user
@@ -116,7 +95,7 @@
 //		 * in the request body
 //		 */
 //		
-//		RUser user = userServ.getUserByUserName(userName);
+//		User user = userServ.getUserByUserName(userName);
 //		if (user == null) {
 //			log.info("UserController:updateProfile: User does not exist, or database lookup failed");
 //			return null;
@@ -128,7 +107,7 @@
 //	}
 //	@RequestMapping(method=RequestMethod.POST, value="/deleteUser")
 //	public static boolean deleteUser(@RequestParam("userName") String userName) {
-//		RUser user = userServ.getUserByUserName(userName);
+//		User user = userServ.getUserByUserName(userName);
 //		if(user == null) {
 //			log.info("User does not exist, or a databse error occured.");
 //			return false;
@@ -136,4 +115,4 @@
 //		userServ.deleteUser(user);
 //		return true;
 //	}
-//}
+}

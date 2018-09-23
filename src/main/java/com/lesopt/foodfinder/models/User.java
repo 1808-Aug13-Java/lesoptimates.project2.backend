@@ -12,33 +12,24 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-public class RUser {
-
+public class User {
+  public static final Integer IS_NOT_CHEF = 0; //more descriptive than TRUE 
+  public static final Integer IS_CHEF = 1;    // or FALSE
+  
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userIdSequence")
 	@SequenceGenerator(name = "userIdSequence", allocationSize = 1, sequenceName = "SQ_USERID_PK")
-	@JsonProperty
-	private Integer userId;
-
-	@JsonProperty
+	private Integer userId; //int cannot be passed as a Generic Type argument (for extending CrudRepository)
 	private String uName;
-
-	@JsonProperty
 	private String name;
-
-	@JsonProperty
 	private String email;
-
-	@JsonProperty
 	private String pswd;
+	private Integer isChef; //Integer, for consistency
 
-	@JsonProperty
-	private int isChef;
-
-	public RUser() {
+	public User() {
 	}
   
-  public RUser(String uName, String name, String email, String pswd, int isChef) {
+  public User(String uName, String name, String email, String pswd, Integer isChef) {
     this.uName = uName;
     this.name = name;
     this.email = email;
@@ -86,11 +77,11 @@ public class RUser {
 		this.pswd = pswd;
 	}
 
-	public int getIsChef() {
+	public Integer getIsChef() {
 		return isChef;
 	}
 
-	public void setIsChef(int isChef) {
+	public void setIsChef(Integer isChef) {
 		this.isChef = isChef;
 	}
 
@@ -115,10 +106,10 @@ public class RUser {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof RUser)) {
+		if (!(obj instanceof User)) {
 			return false;
 		}
-		RUser other = (RUser) obj;
+		User other = (User) obj;
 		if (email == null) {
 			if (other.email != null) {
 				return false;
@@ -158,7 +149,7 @@ public class RUser {
 
 	@Override
 	public String toString() {
-		return "RUser [userId=" + userId + ", " + (uName != null ? "uName=" + uName + ", " : "")
+		return "User [userId=" + userId + ", " + (uName != null ? "uName=" + uName + ", " : "")
 				 + "isChef=" + isChef + "]";
 	}
 
