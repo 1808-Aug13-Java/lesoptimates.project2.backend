@@ -19,14 +19,14 @@ public class DemoApplication {
 	}
 
   @Bean
-  public CommandLineRunner demo(UserRepository rUserRepo, RecipeRepository recipeRepo) {
+  public CommandLineRunner demo(UserRepository userRepo, RecipeRepository recipeRepo) {
     return (args) -> {
-      User rUser1 = rUserRepo.save(new User("firstname", "lastname", "username", "pass", "email@", User.IS_NOT_CHEF));
-      User rUser2 = rUserRepo.save(new User("Jack", "Bauer", "jackbauer", "123", "jack@@", User.IS_CHEF));
+      User user1 = userRepo.save(new User("firstname", "lastname", "username", "pass", "email@", User.IS_NOT_CHEF));
+      User user2 = userRepo.save(new User("Jack", "Bauer", "jackbauer", "123", "jack@@", User.IS_CHEF));
       String recipeJson = "{\"title\": \"recipe title\", \"publisher\": \"some publisher\" }";
-      recipeRepo.save(new Recipe(recipeJson, rUser1));
-      recipeRepo.save(new Recipe(recipeJson, rUser2));
-      for(User u : rUserRepo.findAll()) {
+      recipeRepo.save(new Recipe(recipeJson, user1));
+      recipeRepo.save(new Recipe(recipeJson, user2));
+      for(User u : userRepo.findAll()) {
         log.info(u.toString());
       }
     };
