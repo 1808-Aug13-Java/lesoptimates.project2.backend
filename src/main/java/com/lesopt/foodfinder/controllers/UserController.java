@@ -42,8 +42,8 @@ public class UserController {
 	}
   
   @GetMapping(value="/{username}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<User> findByUsername(@PathVariable("username") String username) {
-		return userRepo.findByUsernameAndIsChef(username, User.IS_NOT_CHEF);
+	public User findByUsername(@PathVariable("username") String username) {
+		return userRepo.findById(username).get();
 	}
 
 	@PostMapping(value="/new", consumes=MediaType.APPLICATION_JSON_VALUE)
