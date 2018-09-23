@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class User {
-  public static final Integer IS_NOT_CHEF = 0; //more descriptive than TRUE 
-  public static final Integer IS_CHEF = 1;    // or FALSE
+  public static final boolean IS_NOT_CHEF = false; 
+  public static final boolean IS_CHEF = true;
   
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,12 +24,12 @@ public class User {
 	private String lastname;
 	private String email;
 	private String passw;
-	private Integer isChef; //Integer, for consistency
+	private boolean isChef; 
 
 	public User() {
 	}
   
-  public User(String firstname, String lastname, String username, String passw, String email, Integer isChef) {
+  public User(String firstname, String lastname, String username, String passw, String email, boolean isChef) {
     this.firstname = firstname;
     this.lastname = lastname;
     this.username = username;
@@ -70,11 +70,11 @@ public class User {
 		this.passw = passw;
 	}
 
-	public Integer getIsChef() {
+	public boolean getIsChef() {
 		return isChef;
 	}
 
-	public void setIsChef(Integer isChef) {
+	public void setIsChef(boolean isChef) {
 		this.isChef = isChef;
 	}
 
@@ -83,7 +83,6 @@ public class User {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + isChef;
 		result = prime * result + ((passw == null) ? 0 : passw.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + userId;
