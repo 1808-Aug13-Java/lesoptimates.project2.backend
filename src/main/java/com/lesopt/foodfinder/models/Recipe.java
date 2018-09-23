@@ -18,8 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Recipe {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipeIdSequence")
-	@SequenceGenerator(name = "recipeIdSequence", allocationSize = 1, sequenceName = "SQ_RECIPE_PK")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer recipeId;
 	private String recipeJSON;
   @Autowired

@@ -17,8 +17,7 @@ public class User {
   public static final Integer IS_CHEF = 1;    // or FALSE
   
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userIdSequence")
-	@SequenceGenerator(name = "userIdSequence", allocationSize = 1, sequenceName = "SQ_USERID_PK")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId; //int cannot be passed as a Generic Type argument (for extending CrudRepository)
 	private String uName;
 	private String name;
