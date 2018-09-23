@@ -30,34 +30,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @RestController
 @CrossOrigin
+@RequestMapping(value="/users")
 public class UserController {
 
   @Autowired
   UserRepository userRepo;   
 
-  @RequestMapping(value="/users", produces=MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public Iterable<User> getAllUsers() {
 		return userRepo.findAll();  
 	}
   
-  @GetMapping(value="/chefs", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<User> findAllChefs() {
-		return userRepo.findByIsChef(User.IS_CHEF);  
+  @GetMapping(value="/{username}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<User> findByUsername(@PathVariable("username") String username) {
+		return userRepo.findByUsernameAndIsChef(username, User.IS_NOT_CHEF);
 	}
 
-  @GetMapping(value="/chefs/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<User> findChefById(@PathVariable("userId") Integer userId) {
-		return userRepo.findByUserIdAndIsChef(userId, User.IS_CHEF);
-	}
-
-  @GetMapping(value="/users/{userId}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<User> findUserById(@PathVariable("userId") Integer userId) {
-		return userRepo.findByUserIdAndIsChef(userId, User.IS_NOT_CHEF);
-	}
-
-	@PostMapping(value="/users/new", consumes=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/new", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String createUser(@RequestBody User u) {
-    if(userRepo.existsByUsername(u.getUsername())) {
+    if(userRepo.existsById(u.getUsername())) {
       return "redirect:/users/new";
     }
     userRepo.save(u);
@@ -65,13 +56,13 @@ public class UserController {
 
 	}
 
-	@DeleteMapping(value="/users/{username}")
+	@DeleteMapping(value="/{username}")
 	public void deleteUser(@PathVariable("username") String username) {
-    User user = userRepo.findByUsername(username);
+    User user = userRepo.findById(username).get();
     userRepo.delete(user);
 	}
 
-	@PutMapping(value="/users/{username}")
+	@PutMapping(value="/{username}")
 	public void updateUser(@RequestBody User user) throws JsonProcessingException {
 		userRepo.save(user);
 	}

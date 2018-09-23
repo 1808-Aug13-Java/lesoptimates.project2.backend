@@ -17,9 +17,6 @@ public class User {
   public static final boolean IS_CHEF = true;
   
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer userId; //int cannot be passed as a Generic Type argument (for extending CrudRepository)
-  @Column(unique=true)
 	private String username;
 	private String firstname;
 	private String lastname;
@@ -39,9 +36,6 @@ public class User {
     this.isChef = isChef;
   }
 
-	public Integer getUserId() {
-		return userId;
-	}
 
 	public String getEmail() {
 		return email;
@@ -51,9 +45,6 @@ public class User {
 		this.email = email;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
 
 	public String getUsername() {
 		return username;
@@ -86,7 +77,6 @@ public class User {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((passw == null) ? 0 : passw.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		result = prime * result + userId;
 		return result;
 	}
 
@@ -140,15 +130,12 @@ public class User {
 		} else if (!username.equals(other.username)) {
 			return false;
 		}
-		if (userId != other.userId) {
-			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", " + (username != null ? "username=" + username + ", " : "")
+		return "User [" + (username != null ? "username=" + username + ", " : "")
 				 + "isChef=" + isChef + "]";
 	}
 

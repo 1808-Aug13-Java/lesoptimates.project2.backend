@@ -2,10 +2,7 @@ package com.lesopt.foodfinder.repository;
 import com.lesopt.foodfinder.models.User;
 import org.springframework.data.repository.CrudRepository;
 import java.util.*;
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, String> {
   List<User> findByIsChef(boolean isChef);
-	List<User> findByUserIdAndIsChef(Integer userId, boolean isChef);
-  User findByUsername(String username);
-  boolean existsByUsername(String username);
-  void deleteByUsername(String username);
+	List<User> findByUsernameAndIsChef(String username, boolean isChef);
 }
