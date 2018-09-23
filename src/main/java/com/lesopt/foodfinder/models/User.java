@@ -19,20 +19,20 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer userId; //int cannot be passed as a Generic Type argument (for extending CrudRepository)
-	private String uName;
+	private String username;
 	private String name;
 	private String email;
-	private String pswd;
+	private String passw;
 	private Integer isChef; //Integer, for consistency
 
 	public User() {
 	}
   
-  public User(String uName, String name, String email, String pswd, Integer isChef) {
-    this.uName = uName;
+  public User(String username, String name, String email, String passw, Integer isChef) {
+    this.username = username;
     this.name = name;
     this.email = email;
-    this.pswd = pswd;
+    this.passw = passw;
     this.isChef = isChef;
   }
 
@@ -52,12 +52,12 @@ public class User {
 		this.userId = userId;
 	}
 
-	public String getuName() {
-		return uName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setuName(String uName) {
-		this.uName = uName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getName() {
@@ -68,12 +68,12 @@ public class User {
 		this.name = name;
 	}
 
-	public String getPswd() {
-		return pswd;
+	public String getPassw() {
+		return passw;
 	}
 
-	public void setPswd(String pswd) {
-		this.pswd = pswd;
+	public void setPassw(String passw) {
+		this.passw = passw;
 	}
 
 	public Integer getIsChef() {
@@ -91,8 +91,8 @@ public class User {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + isChef;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((pswd == null) ? 0 : pswd.hashCode());
-		result = prime * result + ((uName == null) ? 0 : uName.hashCode());
+		result = prime * result + ((passw == null) ? 0 : passw.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + userId;
 		return result;
 	}
@@ -126,18 +126,18 @@ public class User {
 		} else if (!name.equals(other.name)) {
 			return false;
 		}
-		if (pswd == null) {
-			if (other.pswd != null) {
+		if (passw == null) {
+			if (other.passw != null) {
 				return false;
 			}
-		} else if (!pswd.equals(other.pswd)) {
+		} else if (!passw.equals(other.passw)) {
 			return false;
 		}
-		if (uName == null) {
-			if (other.uName != null) {
+		if (username == null) {
+			if (other.username != null) {
 				return false;
 			}
-		} else if (!uName.equals(other.uName)) {
+		} else if (!username.equals(other.username)) {
 			return false;
 		}
 		if (userId != other.userId) {
@@ -148,7 +148,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", " + (uName != null ? "uName=" + uName + ", " : "")
+		return "User [userId=" + userId + ", " + (username != null ? "username=" + username + ", " : "")
 				 + "isChef=" + isChef + "]";
 	}
 

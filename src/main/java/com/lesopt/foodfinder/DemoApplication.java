@@ -1,5 +1,7 @@
 package com.lesopt.foodfinder;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.lesopt.foodfinder.repository.RecipeRepository;
@@ -11,7 +13,7 @@ import com.lesopt.foodfinder.models.Recipe;
 
 @SpringBootApplication
 public class DemoApplication {
-
+  private final static Logger log = LoggerFactory.getLogger(DemoApplication.class);
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
@@ -24,7 +26,7 @@ public class DemoApplication {
       String recipeJson = "{\"title\": \"recipe title\", \"publisher\": \"some publisher\" }";
       recipeRepo.save(new Recipe(recipeJson, rUser1));
       for(User u : rUserRepo.findAll()) {
-        System.out.println(u);
+        log.info(u.toString());
       }
     };
   }

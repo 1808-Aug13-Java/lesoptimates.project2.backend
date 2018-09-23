@@ -51,34 +51,30 @@ public class UserController {
 		return userRepo.findByUserIdAndIsChef(userId, User.IS_NOT_CHEF);
 	}
 
-//	/**
-//	 * 
-//	 * @param request body from front end
-//	 * @return a message detailing the results of the create action
-//	 */
-//	@RequestMapping(method=RequestMethod.POST, value="/newUser")
-//	public static String createUser(@RequestParam("name") String name, @RequestParam("userName") String userName,
-//			@RequestParam("email") String email, @RequestParam("pswd") String pswd) {
-//		
-//		loadUsers();
-//		int setSize = userNameSet.size();
-//		userNameSet.add(userName);
-//		if (setSize == userNameSet.size()) {
-//			return "User Name is already taken; please choose a different User Name.";
-//		}
-//		User user = new User();
-//		user.setEmail(email);
-//		user.setIsChef(0);
-//		user.setName(name);
-//		user.setuName(userName);
-//		user.setPswd(pswd);
-//
-//		
-//		
-//		return userServ.createUser(user).getuName();
-//
-//	}
-//
+	@RequestMapping(method=RequestMethod.POST, value="/new")
+	public static String createUser(@RequestParam("name") String name, @RequestParam("username") String username,
+			@RequestParam("email") String email, @RequestParam("passw") String passw) {
+		
+		//loadUsers();
+		//int setSize = usernameSet.size();
+		//usernameSet.add(username);
+		//if (setSize == usernameSet.size()) {
+		//	return "User Name is already taken; please choose a different User Name.";
+		//}
+		User user = new User();
+		user.setEmail(email);
+		user.setIsChef(0);
+		user.setName(name);
+		user.setUsername(username);
+		user.setPassw(passw);
+
+		
+		
+    return "heyo";
+		//return userServ.createUser(user).getuName();
+
+	}
+
 //	/**
 //	 * 
 //	 * @param request
@@ -87,7 +83,7 @@ public class UserController {
 //	 * @throws JsonProcessingException 
 //	 */
 //	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
-//	public static User updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
+//	public static User updateProfile(@RequestParam("name") String name, @RequestParam("username") String username,
 //			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
 //		/*
 //		 * Current logic assumes front end will not return any empty values. If user
@@ -95,7 +91,7 @@ public class UserController {
 //		 * in the request body
 //		 */
 //		
-//		User user = userServ.getUserByUserName(userName);
+//		User user = userServ.getUserByUserName(username);
 //		if (user == null) {
 //			log.info("UserController:updateProfile: User does not exist, or database lookup failed");
 //			return null;
@@ -106,8 +102,8 @@ public class UserController {
 //		return userServ.updateUSer(user);
 //	}
 //	@RequestMapping(method=RequestMethod.POST, value="/deleteUser")
-//	public static boolean deleteUser(@RequestParam("userName") String userName) {
-//		User user = userServ.getUserByUserName(userName);
+//	public static boolean deleteUser(@RequestParam("username") String username) {
+//		User user = userServ.getUserByUserName(username);
 //		if(user == null) {
 //			log.info("User does not exist, or a databse error occured.");
 //			return false;
