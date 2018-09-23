@@ -17,16 +17,11 @@ public class UserDAOImpl implements UserDAO {
 
 	private static Logger log = Logger.getRootLogger();
 
+	
 	@Override
 	public List<RUser> getAllUsers() {
 		Session s = HibernateUtil.getSession();
-		Criteria cr = s.createCriteria(RUser.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("uName"));
-		projList.add(Projections.property("isChef"));
-		projList.add(Projections.property("name"));
-		cr.setProjection(projList);
-		List<RUser> users = cr.list();
+		List<RUser> users = s.createQuery("from RUser").list();
 		s.close();
 		return users;
 	}
@@ -35,12 +30,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<RUser> getAllChefs() {
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("uName"));
-		projList.add(Projections.property("isChef"));
-		projList.add(Projections.property("name"));
 		cr.add(Restrictions.eq("isChef", 1));
-		cr.setProjection(projList);
 		List<RUser> users = cr.list();
 		s.close();
 		return users;
@@ -50,12 +40,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<RUser> getAllNonChefs() {
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("uName"));
-		projList.add(Projections.property("isChef"));
-		projList.add(Projections.property("name"));
 		cr.add(Restrictions.eq("isChef", 0));
-		cr.setProjection(projList);
 		List<RUser> users = cr.list();
 		s.close();
 		return users;

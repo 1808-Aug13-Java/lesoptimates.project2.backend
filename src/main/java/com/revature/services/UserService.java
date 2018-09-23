@@ -1,14 +1,17 @@
 package com.revature.services;
 
-import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOImpl;
 import com.revature.models.RUser;
 
 public class UserService {
-
+	
+	private static Logger log = Logger.getRootLogger();
 	private static UserDAO ud = new UserDAOImpl();
 	public UserService() {
 		super();
@@ -18,12 +21,46 @@ public class UserService {
 		return ud.getAllUsers();
 	}
 	
+	public List<RUser> getAllUsersExternal(){
+		List<RUser> users = ud.getAllUsers();
+		List<RUser> sanatizedUsers = new ArrayList<>();
+		
+		for(RUser u: users) {
+			u.setEmail(" ");
+			u.setPswd(" ");
+			u.setName(" ");
+			sanatizedUsers.add(u);
+			}
+		
+		return users;
+	}
+	
 	public List<RUser> getAllChefs(){
-		return ud.getAllChefs();
+		List<RUser> users = ud.getAllChefs();
+		List<RUser> sanatizedUsers = new ArrayList<>();
+		
+		for(RUser u: users) {
+			u.setEmail(" ");
+			u.setPswd(" ");
+			u.setName(" ");
+			sanatizedUsers.add(u);
+			}
+		
+		return users;
 	}
 	
 	public List<RUser> getAllDefaultUsers(){
-		return ud.getAllNonChefs();
+		List<RUser> users = ud.getAllNonChefs();
+		List<RUser> sanatizedUsers = new ArrayList<>();
+		
+		for(RUser u: users) {
+			u.setEmail(" ");
+			u.setPswd(" ");
+			u.setName(" ");
+			sanatizedUsers.add(u);
+			}
+		
+		return users;
 	}
 	
 	public RUser createUser(RUser user) {

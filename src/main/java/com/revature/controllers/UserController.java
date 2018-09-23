@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,17 +48,36 @@ public class UserController {
 	 * 
 	 * @return array of JSON objects(as a string) containing user objects
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/getUsers")
+	@RequestMapping(method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/getUsers")
 	public static List<RUser> getAllUsers() {
 		
-		return userServ.getAllUsers();
+		return userServ.getAllUsersExternal();
 	}
+	
+	@RequestMapping(method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/getUsers/{username}")
+	public static RUser getUserByUsername(@PathVariable("username") String username) {
+		
+		return userServ.getUserByUserName(username);
+	}
+	
+	/**
+	 * This controller method returns all users in the database as a JSON object to
+	 * be handled by the view in our component.ts
+	 * 
+	 * @return array of JSON objects(as a string) containing user objects
+	 */
+	@RequestMapping(method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/getUsernames")
+	public static List<RUser> getUsernames() {
+		
+		return userServ.getAllUsersExternal();
+	}
+	
 	/**
 	 * To get all Users with Chef status simply call this method with 
 	 * getChefs appended to the url. 
 	 * @return array of JSON objects(as a string) containing chef user objects
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/getChefs")
+	@RequestMapping(method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/getChefs")
 	public static List<RUser> getAllChefs() {
 		
 		return userServ.getAllChefs();
@@ -66,7 +87,7 @@ public class UserController {
 	 * 
 	 * @return array of JSON objects(as a string) containing default user objects
 	 */
-	@RequestMapping(method=RequestMethod.POST, value="/getDefaultUsers")
+	@RequestMapping(method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value="/getDefaultUsers")
 	public static List<RUser> getAllDefaultUsers() {
 		
 		return userServ.getAllDefaultUsers();
@@ -93,8 +114,6 @@ public class UserController {
 		user.setName(name);
 		user.setuName(userName);
 		user.setPswd(pswd);
-
-		
 		
 		return userServ.createUser(user).getuName();
 
