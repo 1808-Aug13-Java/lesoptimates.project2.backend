@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOImpl;
 import com.revature.models.RUser;
 
+@Service
 public class UserService {
 	
-	private static Logger log = Logger.getRootLogger();
 	private static UserDAO ud = new UserDAOImpl();
+	
 	public UserService() {
 		super();
 	}

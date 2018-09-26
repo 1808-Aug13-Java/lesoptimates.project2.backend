@@ -29,8 +29,8 @@ public class UserController {
 
 	private static Logger log = Logger.getRootLogger();
 	private static Set<String> userNameSet = new HashSet<>();
+	
 	private static UserService userServ = new UserService();
-	//TODO implement Session managament for login
 
 	public UserController() {
 		super();
