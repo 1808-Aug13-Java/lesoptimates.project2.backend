@@ -62,9 +62,9 @@ public class RecipeController {
 		
 		List<Recipe> recipes = rService.getAllRecipesByUserId(userId);
 		
-		if(recipes.size() == 0) {
-			throw new UserNotFoundException();
-		}
+//		if(recipes.size() == 0) {
+//			throw new UserNotFoundException();
+//		}
 		
 		return recipes;
 	}
