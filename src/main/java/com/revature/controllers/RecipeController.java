@@ -3,7 +3,9 @@ package com.revature.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.*;
 
+import java.lang.reflect.Array;
 import java.sql.Date;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -62,9 +64,11 @@ public class RecipeController {
 		
 		List<Recipe> recipes = rService.getAllRecipesByUserId(userId);
 		
-		if(recipes.size() == 0) {
-			throw new UserNotFoundException();
-		}
+		Collections.sort(recipes,Collections.reverseOrder());
+		
+//		if(recipes.size() == 0) {
+//			throw new UserNotFoundException();
+//		}
 		
 		return recipes;
 	}
@@ -72,7 +76,9 @@ public class RecipeController {
 	@GetMapping("/recipes")
 	@ResponseBody
 	public List<Recipe> printAllRecipes() {
-		return rService.getAllRecipes();
+		List<Recipe> recipes = rService.getAllRecipes();
+		Collections.sort(recipes,Collections.reverseOrder());
+		return recipes;
 	}
 	
 	@RequestMapping(value="recipes/save", method=RequestMethod.POST)
@@ -117,4 +123,5 @@ public class RecipeController {
 	public String getDeleteRecipe() {
 		return "DeleteRecipe";
 	}
+	
 }

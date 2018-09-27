@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table
-public class Recipe {
+public class Recipe implements Comparable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="recipeIdSequence")
@@ -44,14 +44,6 @@ public class Recipe {
 		super();
 		this.recipeJSON = recipeJSON;
 	}
-	
-	public Recipe(int recipeId, String recipeJSON, RUser user) {
-		super();
-		this.recipeId = recipeId;
-		this.recipeJSON = recipeJSON;
-		this.user = user;
-	}
-
 
 	public int getRecipeId() {
 		return recipeId;
@@ -125,7 +117,12 @@ public class Recipe {
 		}
 		return true;
 	}
-
+	
+    @Override
+    public int compareTo(Object o) {
+        Recipe r = (Recipe) o;
+        return ((Integer) getRecipeId()).compareTo( (Integer) r.getRecipeId());
+    }
 
 	@Override
 	public String toString() {
