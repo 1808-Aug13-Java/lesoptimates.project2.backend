@@ -1,3 +1,4 @@
+
 package com.revature.controllers;
 
 import java.util.HashSet;
@@ -5,6 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,12 +25,13 @@ import com.revature.services.UserService;
  *
  */
 @RestController
+@CrossOrigin
 public class UserController {
 
 	private static Logger log = Logger.getRootLogger();
 	private static Set<String> userNameSet = new HashSet<>();
+	
 	private static UserService userServ = new UserService();
-	//TODO implement Session managament for login
 
 	public UserController() {
 		super();
@@ -44,17 +49,36 @@ public class UserController {
 	 * 
 	 * @return array of JSON objects(as a string) containing user objects
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/getUsers")
+	@RequestMapping(method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/getUsers")
 	public static List<RUser> getAllUsers() {
 		
-		return userServ.getAllUsers();
+		return userServ.getAllUsersExternal();
 	}
+	
+	@RequestMapping(method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/getUsers/{username}")
+	public static RUser getUserByUsername(@PathVariable("username") String username) {
+		
+		return userServ.getUserByUserName(username);
+	}
+	
+	/**
+	 * This controller method returns all users in the database as a JSON object to
+	 * be handled by the view in our component.ts
+	 * 
+	 * @return array of JSON objects(as a string) containing user objects
+	 */
+	@RequestMapping(method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/getUsernames")
+	public static List<RUser> getUsernames() {
+		
+		return userServ.getAllUsersExternal();
+	}
+	
 	/**
 	 * To get all Users with Chef status simply call this method with 
 	 * getChefs appended to the url. 
 	 * @return array of JSON objects(as a string) containing chef user objects
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/getChefs")
+	@RequestMapping(method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value="/getChefs")
 	public static List<RUser> getAllChefs() {
 		
 		return userServ.getAllChefs();
@@ -64,7 +88,7 @@ public class UserController {
 	 * 
 	 * @return array of JSON objects(as a string) containing default user objects
 	 */
-	@RequestMapping(method=RequestMethod.POST, value="/getDefaultUsers")
+	@RequestMapping(method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value="/getDefaultUsers")
 	public static List<RUser> getAllDefaultUsers() {
 		
 		return userServ.getAllDefaultUsers();
@@ -75,7 +99,7 @@ public class UserController {
 	 * @param request body from front end
 	 * @return a message detailing the results of the create action
 	 */
-	@RequestMapping(method=RequestMethod.POST, value="/newUser")
+	@RequestMapping(value="/newUser", method=RequestMethod.POST)
 	public static String createUser(@RequestParam("name") String name, @RequestParam("userName") String userName,
 			@RequestParam("email") String email, @RequestParam("pswd") String pswd) {
 		
@@ -91,8 +115,8 @@ public class UserController {
 		user.setName(name);
 		user.setuName(userName);
 		user.setPswd(pswd);
-
-		return userServ.createUser(user);
+		
+		return userServ.createUser(user).getuName();
 
 	}
 
@@ -104,7 +128,7 @@ public class UserController {
 	 * @throws JsonProcessingException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
-	public static RUser updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
+	public static RUser updateProfile(@RequestParam("id") String userId, @RequestParam("name") String name, @RequestParam("userName") String userName,
 			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
 		/*
 		 * Current logic assumes front end will not return any empty values. If user
@@ -112,7 +136,7 @@ public class UserController {
 		 * in the request body
 		 */
 		
-		RUser user = userServ.getUserByUserName(userName);
+		RUser user = userServ.getUserById(Integer.parseInt(userId));
 		if (user == null) {
 			log.info("UserController:updateProfile: User does not exist, or database lookup failed");
 			return null;
