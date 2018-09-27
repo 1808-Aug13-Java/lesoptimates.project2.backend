@@ -1,10 +1,6 @@
 package com.revature.eval.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -19,6 +15,7 @@ import com.revature.dao.RecipeDao;
 import com.revature.dao.RecipeDaoImpl;
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOImpl;
+import com.revature.models.RUser;
 /**
  * This Junit test will confirm whether or not all DAO methods are behaving as expected 
  * @author jeremiah
@@ -38,10 +35,11 @@ public class DOATest {
 	 */
 	@Test
 	public void testGetRecipes() {
+		List<RUser> expResult = new ArrayList<>();
 		/*
 		 * will have to manually ensure that the passed id's will match these expected objects
 		 */
-//		expResult.add(new Employee(120, "Lindsey", "Gilluley", 100, "Bryum"));
+//		expResult.add(new RUser(100, "Lindsey", "Gilluley", 100, "Bryum"));
 //		expResult.add(new Employee(121, "Cecelia", "Woodroffe", 101, "Vernonia"));
 //		expResult.add(new Employee(122, "Brandea", "McSperron", 102, "Echinocereus"));
 //		expResult.add(new Employee(123, "Owen", "Templeton", 103, "Triplaris"));
