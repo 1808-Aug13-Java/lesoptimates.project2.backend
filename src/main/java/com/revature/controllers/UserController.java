@@ -128,7 +128,7 @@ public class UserController {
 	 * @throws JsonProcessingException 
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
-	public static RUser updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
+	public static RUser updateProfile(@RequestParam("id") String userId, @RequestParam("name") String name, @RequestParam("userName") String userName,
 			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
 		/*
 		 * Current logic assumes front end will not return any empty values. If user
@@ -136,7 +136,7 @@ public class UserController {
 		 * in the request body
 		 */
 		
-		RUser user = userServ.getUserByUserName(userName);
+		RUser user = userServ.getUserById(Integer.parseInt(userId));
 		if (user == null) {
 			log.info("UserController:updateProfile: User does not exist, or database lookup failed");
 			return null;

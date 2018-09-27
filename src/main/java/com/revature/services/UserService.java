@@ -77,6 +77,10 @@ public class UserService {
 		return ud.getUserByUserName(username);
 	}
 	
+	public RUser getUserById(int id) {
+		return ud.getUserByUserId(id);
+	}
+	
 	public RUser updateUSer(RUser user) {
 		return ud.updateUser(user);
 	}
