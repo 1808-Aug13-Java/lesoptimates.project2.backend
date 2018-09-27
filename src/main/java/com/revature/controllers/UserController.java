@@ -99,7 +99,7 @@ public class UserController {
 	 * @param request body from front end
 	 * @return a message detailing the results of the create action
 	 */
-	@RequestMapping(method=RequestMethod.POST, value="/newUser")
+	@RequestMapping(value="/newUser", method=RequestMethod.POST)
 	public static String createUser(@RequestParam("name") String name, @RequestParam("userName") String userName,
 			@RequestParam("email") String email, @RequestParam("pswd") String pswd) {
 		

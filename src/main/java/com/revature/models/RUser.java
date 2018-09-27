@@ -46,6 +46,24 @@ public class RUser {
 		super();
 	}
 
+	public RUser(int id, String uName, String name, String email, String pswd, int isChef) {
+		super();
+		this.userId = id;
+		this.uName = uName;
+		this.name = name;
+		this.email = email;
+		this.pswd = pswd;
+		this.isChef = isChef;
+	}
+	
+	public RUser(String uName, String name, String email, String pswd, int isChef) {
+		super();
+		this.uName = uName;
+		this.name = name;
+		this.email = email;
+		this.pswd = pswd;
+		this.isChef = isChef;
+	}
 
 	public int getUserId() {
 		return userId;
