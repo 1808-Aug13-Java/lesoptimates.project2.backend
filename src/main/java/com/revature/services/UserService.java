@@ -1,15 +1,19 @@
 package com.revature.services;
 
-import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDAOImpl;
 import com.revature.models.RUser;
 
+@Service
 public class UserService {
-
+	
 	private static UserDAO ud = new UserDAOImpl();
+	
 	public UserService() {
 		super();
 	}
@@ -18,19 +22,54 @@ public class UserService {
 		return ud.getAllUsers();
 	}
 	
+	public List<RUser> getAllUsersExternal(){
+		List<RUser> users = ud.getAllUsers();
+		List<RUser> sanatizedUsers = new ArrayList<>();
+		
+		for(RUser u: users) {
+			u.setEmail(" ");
+			u.setPswd(" ");
+			u.setName(" ");
+			sanatizedUsers.add(u);
+			}
+		
+		return users;
+	}
+	
 	public List<RUser> getAllChefs(){
-		return ud.getAllChefs();
+		List<RUser> users = ud.getAllChefs();
+		List<RUser> sanatizedUsers = new ArrayList<>();
+		
+		for(RUser u: users) {
+			u.setEmail(" ");
+			u.setPswd(" ");
+			u.setName(" ");
+			sanatizedUsers.add(u);
+			}
+		
+		return users;
 	}
 	
 	public List<RUser> getAllDefaultUsers(){
-		return ud.getAllNonChefs();
+		List<RUser> users = ud.getAllNonChefs();
+		List<RUser> sanatizedUsers = new ArrayList<>();
+		
+		for(RUser u: users) {
+			u.setEmail(" ");
+			u.setPswd(" ");
+			u.setName(" ");
+			sanatizedUsers.add(u);
+			}
+		
+		return users;
 	}
 	
-	public String createUser(RUser user) {
-		if (ud.createUser(user) > 0) {
-			return "Success";
+	public RUser createUser(RUser user) {
+		int userId = ud.createUser(user);
+		if (userId > 0) {
+			return ud.getUserByUserId(userId);
 		} else {
-			return "Failed";
+			return null;
 		}
 	}
 	
@@ -55,3 +94,4 @@ public class UserService {
 		return null;
 	}
 }
+

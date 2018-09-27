@@ -1,32 +1,27 @@
 package com.revature.dao;
 
+
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.revature.models.RUser;
 import com.revature.util.HibernateUtil;
 
+
 public class UserDAOImpl implements UserDAO {
 
 	private static Logger log = Logger.getRootLogger();
 
+	
 	@Override
 	public List<RUser> getAllUsers() {
 		Session s = HibernateUtil.getSession();
-		Criteria cr = s.createCriteria(RUser.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("uName"));
-		projList.add(Projections.property("isChef"));
-		projList.add(Projections.property("name"));
-		cr.setProjection(projList);
-		List<RUser> users = cr.list();
+		List<RUser> users = s.createQuery("from RUser").list();
 		s.close();
 		return users;
 	}
@@ -35,12 +30,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<RUser> getAllChefs() {
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("uName"));
-		projList.add(Projections.property("isChef"));
-		projList.add(Projections.property("name"));
 		cr.add(Restrictions.eq("isChef", 1));
-		cr.setProjection(projList);
 		List<RUser> users = cr.list();
 		s.close();
 		return users;
@@ -50,12 +40,7 @@ public class UserDAOImpl implements UserDAO {
 	public List<RUser> getAllNonChefs() {
 		Session s = HibernateUtil.getSession();
 		Criteria cr = s.createCriteria(RUser.class);
-		ProjectionList projList = Projections.projectionList();
-		projList.add(Projections.property("uName"));
-		projList.add(Projections.property("isChef"));
-		projList.add(Projections.property("name"));
 		cr.add(Restrictions.eq("isChef", 0));
-		cr.setProjection(projList);
 		List<RUser> users = cr.list();
 		s.close();
 		return users;
@@ -97,7 +82,6 @@ public class UserDAOImpl implements UserDAO {
 		tx.commit();
 		s.close();
 		return custId;
-
 	}
 
 	@Override

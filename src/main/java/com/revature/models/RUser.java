@@ -46,6 +46,7 @@ public class RUser {
 		super();
 	}
 
+
 	public int getUserId() {
 		return userId;
 	}
