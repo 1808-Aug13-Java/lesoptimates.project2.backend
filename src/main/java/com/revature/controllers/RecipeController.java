@@ -117,35 +117,4 @@ public class RecipeController {
 	public String getDeleteRecipe() {
 		return "DeleteRecipe";
 	}
-	
-//----------------------------------------------------------------------------------------------------------
-	public void printRecipesByUser(RUser user) {
-		ObjectMapper om = new ObjectMapper();
-		try {
-			RecipeDao rdi = new RecipeDaoImpl();
-			List<Recipe> recipes = rdi.getAllRecipesByUser(user);
-			
-			String recipesString = om.writeValueAsString(recipes);
-			recipesString = "{\"recipes\":"+recipesString+"}";
-			log.info(recipesString);
-			
-
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}	
-	}
-
-	public void printRecipe(Recipe recipe) {
-		ObjectMapper om = new ObjectMapper();
-		try {
-			
-			String recipeString = om.writeValueAsString(recipe);
-			recipeString = "{\"recipes\":"+recipeString+"}";
-			log.info(recipeString);
-			
-
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-	}
 }
