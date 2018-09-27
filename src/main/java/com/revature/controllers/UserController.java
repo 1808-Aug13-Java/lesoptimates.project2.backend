@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.revature.models.RUser;
 import com.revature.services.UserService;
 
@@ -128,7 +127,7 @@ public class UserController {
 	 */
 	@RequestMapping(method=RequestMethod.POST, value="/updateUser")
 	public static RUser updateProfile(@RequestParam("name") String name, @RequestParam("userName") String userName,
-			@RequestParam("email") String email, @RequestParam("pswd") String pswd) throws JsonProcessingException {
+			@RequestParam("email") String email, @RequestParam("pswd") String pswd) {
 		/*
 		 * Current logic assumes front end will not return any empty values. If user
 		 * does not input a field, front end should return user's original profile info
