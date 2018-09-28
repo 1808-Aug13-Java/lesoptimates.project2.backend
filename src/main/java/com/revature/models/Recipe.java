@@ -39,6 +39,13 @@ public class Recipe {
 		super();
 	}
 
+	public Recipe(int recipeId, String recipeJSON, RUser user) {
+		super();
+		this.recipeId = recipeId;
+		this.recipeJSON = recipeJSON;
+		this.user = user;
+	}
+
 
 	public Recipe(String recipeJSON) {
 		super();

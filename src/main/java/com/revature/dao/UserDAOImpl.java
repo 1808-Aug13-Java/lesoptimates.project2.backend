@@ -13,8 +13,12 @@ import org.hibernate.criterion.Restrictions;
 import com.revature.models.RUser;
 import com.revature.util.HibernateUtil;
 
+/**
+ * The Class UserDAOImpl which provides the implimentation of CRUD access to our database
+ */
 public class UserDAOImpl implements UserDAO {
 
+	/** The log. */
 	private static Logger log = Logger.getRootLogger();
 
 	
@@ -26,6 +30,7 @@ public class UserDAOImpl implements UserDAO {
 		return users;
 	}
 
+
 	@Override
 	public List<RUser> getAllChefs() {
 		Session s = HibernateUtil.getSession();
@@ -36,6 +41,7 @@ public class UserDAOImpl implements UserDAO {
 		return users;
 	}
 
+
 	@Override
 	public List<RUser> getAllNonChefs() {
 		Session s = HibernateUtil.getSession();
@@ -45,6 +51,7 @@ public class UserDAOImpl implements UserDAO {
 		s.close();
 		return users;
 	}
+
 
 	@Override
 	public RUser getUserByUserName(String userName) {
@@ -60,6 +67,7 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 	
+	
 	@Override
 	public RUser getUserByUserId(int userId) {
 		Session s = HibernateUtil.getSession();
@@ -74,6 +82,7 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 
+
 	@Override
 	public int createUser(RUser user) {
 		Session s = HibernateUtil.getSession();
@@ -84,6 +93,7 @@ public class UserDAOImpl implements UserDAO {
 		return custId;
 	}
 
+
 	@Override
 	public void deleteUser(RUser user) {
 		Session s = HibernateUtil.getSession();
@@ -93,6 +103,7 @@ public class UserDAOImpl implements UserDAO {
 		s.close();
 
 	}
+
 
 	@Override
 	public RUser updateUser(RUser user) {
